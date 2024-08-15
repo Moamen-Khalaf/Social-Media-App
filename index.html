@@ -11,7 +11,7 @@
     <nav
       class="fixed w-full flex justify-between px-1 sm:px-3 bg-secondary items-center shadow-md *:text-accent gap-1 h-[56px] top-0"
     >
-      <div class="w-[15%] px-2 flex-shrink">
+      <div class="w-fit sm:w-[25%] px-2 flex-shrink">
         <h1 class="font-bold">Logo</h1>
       </div>
       <ul class="flex justify-between *:block *:cursor-pointer flex-grow gap-1">
@@ -52,11 +52,11 @@
       </div>
     </nav>
     <!-- add post -->
-    <section
+    <div
       class="container mt-[70px] bg-secondary rounded-3xl overflow-hidden shadow-sm"
       id="add-post"
     >
-      <section class="flex p-4 *:block gap-4 items-center justify-between">
+      <div class="flex p-4 *:block gap-4 items-center justify-between">
         <img
           src="./assets/design.png"
           alt="userImge"
@@ -68,8 +68,11 @@
           class="focus:outline-none flex-grow min-h-20 resize-y max-h-36 bg-transparent"
         ></textarea>
         <i class="fa-solid fa-pen"></i>
-      </section>
-      <section
+      </div>
+      <div class="preview">
+        <img src="" alt="" />
+      </div>
+      <div
         class="text-[1.5rem] mt-4 flex items-center justify-between *:flex-grow *:text-center *:cursor-pointer"
       >
         <input type="file" name="imgUplaod" id="imgUplaod" class="hidden" />
@@ -88,12 +91,12 @@
           class="py-5 pr-6 bg-[#c8edff] fa-regular fa-paper-plane"
           id="add-post-btn"
         ></button>
-      </section>
-    </section>
+      </div>
+    </div>
     <!-- Post1 -->
-    <section class="post">
+    <div class="post">
       <!-- header -->
-      <section class="post-header">
+      <div class="post-header">
         <div class="post-user">
           <img src="assets/design.png" alt="" class="sm-image" />
           <div>
@@ -105,19 +108,19 @@
           <button class="fa-solid fa-ellipsis-vertical"></button>
           <div class="post-setting-menu"></div>
         </div>
-      </section>
+      </div>
       <!-- desc -->
-      <section class="desc">
+      <div class="desc">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
         veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
         inventore, voluptates harum et consectetur ex vero qui! Sint non commodi
         odio laboriosam!
-      </section>
+      </div>
       <!-- post image -->
-      <section class="post-image">
+      <div class="post-image">
         <img src="assets/design.png" alt="" />
-      </section>
-      <section>
+      </div>
+      <div>
         <div class="post-reaction">
           <div>
             <i class="fa-regular fa-heart"></i>
@@ -158,8 +161,8 @@
           />
           <button class="fa-solid fa-paper-plane text-accent"></button>
         </div>
-      </section>
-    </section>
+      </div>
+    </div>
     <!-- Footer -->
     <footer class="bg-accent">
       <div class="container text-center py-5 font-bold text-secondary">

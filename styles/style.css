@@ -624,16 +624,13 @@ video {
   min-height: 5rem;
 }
 
-.w-\[15\%\] {
-  width: 15%;
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 .w-full {
   width: 100%;
-}
-
-.max-w-full {
-  max-width: 100%;
 }
 
 .flex-shrink {
@@ -1047,6 +1044,9 @@ video {
     display: none;
   }
   .comments {
+    max-height: 25vh;
+  }
+  .comments {
     .comment-item {
       margin-left: 0.5rem;
       margin-right: 0.5rem;
@@ -1275,6 +1275,10 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:w-\[25\%\] {
+    width: 25%;
+  }
+
   .sm\:px-3 {
     padding-left: 0.75rem;
     padding-right: 0.75rem;

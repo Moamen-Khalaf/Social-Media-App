@@ -58,7 +58,7 @@
       @apply px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center;
     }
     .comments {
-      @apply hidden;
+      @apply hidden max-h-[25vh];
       .comment-item {
         @apply bg-primary mx-2 rounded-md my-4;
         .comment-header {
