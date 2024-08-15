@@ -11,7 +11,7 @@
     <nav
       class="fixed w-full flex justify-between px-1 sm:px-3 bg-secondary items-center shadow-md *:text-accent gap-1 h-[56px] top-0"
     >
-      <div class="w-[25%] px-2">
+      <div class="w-[15%] px-2 flex-shrink">
         <h1 class="font-bold">Logo</h1>
       </div>
       <ul class="flex justify-between *:block *:cursor-pointer flex-grow gap-1">
@@ -23,24 +23,31 @@
         >
           <i class="fa-solid fa-user"></i>
         </li>
+        <li
+          class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
+        >
+          <i class="fa-solid fa-bell"></i>
+        </li>
+        <li
+          class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
+        >
+          <i class="fa-solid fa-user-group"></i>
+        </li>
+        <li
+          class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
+        >
+          <i class="fa-solid fa-comment"></i>
+        </li>
       </ul>
-      <div class="relative w-[25%]">
+      <div class="search-box">
         <input
           type="search"
           name="userSearch"
-          id="search"
-          class="w-full border border-solid focus:outline-none p-1 rounded-md max-w-full peer"
+          class="w-full border border-solid focus:outline-none p-1 rounded-md peer"
           placeholder="Search for anyone ....."
         />
-        <div
-          id="userSearchedItems"
-          class="absolute left-0 w-full top-full h-fit bg-secondary scale-0 peer-focus:scale-100"
-        >
-          <div
-            class="py-2 px-1 hover:bg-[#abc] hover:text-secondary font-light"
-          >
-            Lorem ipsum dolor sit amet.
-          </div>
+        <div id="userSearchedItems">
+          <div class="searched-item">Lorem ipsum dolor sit amet.</div>
         </div>
       </div>
     </nav>
@@ -84,33 +91,34 @@
       </section>
     </section>
     <!-- Post1 -->
-    <section class="container bg-secondary my-4 rounded-3xl overflow-hidden">
-      <section class="flex justify-between items-center py-4 px-3">
-        <div class="flex gap-3 flex-grow items-center">
+    <section class="post">
+      <!-- header -->
+      <section class="post-header">
+        <div class="post-user">
           <img src="assets/design.png" alt="" class="sm-image" />
           <div>
-            <h3 class="font-bold">User</h3>
-            <h4 class="text-[#abc]">UserName</h4>
+            <h3>User</h3>
+            <h4>UserName</h4>
           </div>
         </div>
         <div>
           <button class="fa-solid fa-ellipsis-vertical"></button>
-          <div></div>
+          <div class="post-setting-menu"></div>
         </div>
       </section>
-      <section class="font-medium px-4 py-3">
+      <!-- desc -->
+      <section class="desc">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
         veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
         inventore, voluptates harum et consectetur ex vero qui! Sint non commodi
         odio laboriosam!
       </section>
-      <section class="max-w-full">
+      <!-- post image -->
+      <section class="post-image">
         <img src="assets/design.png" alt="" />
       </section>
       <section>
-        <div
-          class="px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center"
-        >
+        <div class="post-reaction">
           <div>
             <i class="fa-regular fa-heart"></i>
             <span>0</span>
@@ -118,12 +126,10 @@
           <i class="fa-solid fa-comment"></i>
         </div>
         <div class="comments">
-          <div class="comment-item bg-primary mx-2 rounded-md my-4">
-            <div
-              class="flex justify-between items-center py-4 px-3 border-b-2 border-accent border-solid"
-            >
-              <div class="flex gap-3 flex-grow items-center">
-                <img src="assets/design.png" alt="" class="sm-image" />
+          <div class="comment-item">
+            <div class="comment-header">
+              <div class="comment-user">
+                <img src="assets/design.png" alt="" />
                 <div>
                   <h3 class="font-bold">User</h3>
                   <h4 class="text-[#abc]">UserName</h4>
@@ -134,7 +140,7 @@
                 <i class="fa-regular fa-heart"></i>
               </div>
             </div>
-            <div class="font-light px-4 py-3">
+            <div class="desc">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
               veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
               inventore, voluptates harum et consectetur ex vero qui! Sint non
@@ -142,72 +148,15 @@
             </div>
           </div>
         </div>
-        <div
-          class="flex mt-6 mb-3 mx-2 py-2 px-4 rounded-full *:block gap-4 items-center justify-between bg-primary"
-        >
-          <img
-            src="./assets/design.png"
-            alt="userImge"
-            class="sm-image self-start"
-          />
+        <!-- add comment -->
+        <div class="add-comment">
+          <img src="./assets/design.png" alt="userImge" />
           <input
             type="text"
             placeholder="Write somthing...."
-            class="focus:outline-none flex-grow pl-4 bg-transparent"
+            class="add-input"
           />
-          <i class="fa-solid fa-paper-plane text-accent"></i>
-        </div>
-      </section>
-    </section>
-    <!-- Post2 -->
-    <section class="container bg-secondary my-4 rounded-3xl overflow-hidden">
-      <section class="flex justify-between items-center py-4 px-3">
-        <div class="flex gap-3 flex-grow items-center">
-          <img src="assets/design.png" alt="" class="sm-image" />
-          <div>
-            <h3 class="font-bold">User</h3>
-            <h4 class="text-[#abc]">UserName</h4>
-          </div>
-        </div>
-        <div>
-          <button class="fa-solid fa-ellipsis-vertical"></button>
-          <div></div>
-        </div>
-      </section>
-      <section class="font-medium px-4 py-3">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
-        veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
-        inventore, voluptates harum et consectetur ex vero qui! Sint non commodi
-        odio laboriosam!
-      </section>
-      <section>
-        <img src="assets/design.png" alt="" />
-      </section>
-      <section>
-        <div
-          class="px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center"
-        >
-          <div>
-            <i class="fa-regular fa-heart"></i>
-            <span>0</span>
-          </div>
-          <i class="fa-solid fa-comment"></i>
-        </div>
-        <div></div>
-        <div
-          class="flex mt-6 mb-3 mx-2 py-2 px-4 rounded-full *:block gap-4 items-center justify-between bg-primary"
-        >
-          <img
-            src="./assets/design.png"
-            alt="userImge"
-            class="sm-image self-start"
-          />
-          <input
-            type="text"
-            placeholder="Write somthing...."
-            class="focus:outline-none flex-grow pl-4 bg-transparent"
-          />
-          <i class="fa-solid fa-paper-plane text-accent"></i>
+          <button class="fa-solid fa-paper-plane text-accent"></button>
         </div>
       </section>
     </section>

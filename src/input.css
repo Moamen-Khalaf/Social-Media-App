@@ -10,13 +10,85 @@
 }
 @layer utilities {
   .container {
-    @apply sm:w-[540px] md:w-[720px] mx-auto;
     width: calc(100% - 1rem);
+    @apply sm:w-[540px] md:w-[720px] mx-auto;
   }
   .sm-image {
     @apply block rounded-full w-10 object-cover object-center aspect-square;
   }
   .icon-active {
     @apply border-accent border-b-2;
+  }
+  .search-box {
+    @apply relative w-[25%];
+    #userSearchedItems {
+      @apply absolute left-0 w-full top-full h-fit bg-secondary scale-0 peer-focus:scale-100;
+      .searched-item {
+        @apply py-2 px-1 hover:bg-[#abc] hover:text-secondary font-light;
+      }
+    }
+  }
+  .post {
+    @apply container bg-secondary my-4 rounded-3xl overflow-hidden;
+    .post-header {
+      @apply flex justify-between items-center py-4 px-3;
+      .post-user {
+        @apply flex gap-3 flex-grow items-center;
+        img {
+          @apply sm-image;
+        }
+        h3 {
+          @apply font-bold;
+        }
+        h4 {
+          @apply text-[#abc];
+        }
+      }
+      .post-setting-menu {
+        @apply p-3;
+      }
+    }
+    .desc {
+      @apply font-medium px-4 py-3;
+    }
+    .post-image {
+      @apply max-w-full;
+    }
+    .post-reaction {
+      @apply px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center;
+    }
+    .comments {
+      @apply hidden;
+      .comment-item {
+        @apply bg-primary mx-2 rounded-md my-4;
+        .comment-header {
+          @apply flex justify-between items-center py-4 px-3 border-b-2 border-accent border-solid;
+          .comment-user {
+            @apply flex gap-3 flex-grow items-center;
+            img {
+              @apply sm-image;
+            }
+            h3 {
+              @apply font-bold;
+            }
+            h4 {
+              @apply text-[#abc];
+            }
+          }
+        }
+        .desc {
+          @apply font-light px-4 py-3;
+        }
+      }
+    }
+    .add-comment {
+      @apply flex mt-6 mb-3 mx-2 py-2 px-4 rounded-full *:block gap-1 items-center justify-between bg-primary;
+      img {
+        @apply sm-image self-start;
+      }
+      .add-input {
+        @apply focus:outline-none flex-grow pl-4 bg-transparent;
+      }
+    }
   }
 }
