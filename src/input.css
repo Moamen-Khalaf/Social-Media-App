@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@config '../tailwind.config.js';
+*,
+*::before,
+*::after {
+  @apply box-border;
+  /* outline: 1px solid red; */
+}
+@layer utilities {
+  .container {
+    @apply sm:w-[540px] md:w-[720px] mx-auto;
+    width: calc(100% - 1rem);
+  }
+  .sm-image {
+    @apply block rounded-full w-10 object-cover object-center aspect-square;
+  }
+  .icon-active {
+    @apply border-accent border-b-2;
+  }
+}
