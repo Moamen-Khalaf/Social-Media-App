@@ -1,4 +1,9 @@
 "use strict";
+const addPostbtn = document.getElementById("add-post-btn");
+const imageFileLoader = document.getElementById("imgUplaod");
+const clearImages = document.getElementById("clearImages");
+const preview = document.getElementById("file-preview");
+
 function createCommentItem({
   id,
   userId,
@@ -29,6 +34,47 @@ function createCommentItem({
             </div>`);
   return comment;
 }
+
+function addComments(comments, commentSection, commentCount) {
+  for (const element of Object.values(comments)) {
+    commentSection.appendChild(createCommentItem(element));
+    commentCount.textContent = +commentCount.textContent + 1;
+  }
+}
+
+function setFunctionlaity(post, commentSection, commentCount, id) {
+  const addCommentInput = post.querySelector(`.add-input`);
+  const settingMenu = post.querySelector(".post-setting-menu");
+  post.querySelector(".comment-btn").addEventListener("click", () => {
+    commentSection.classList.toggle("show");
+  });
+  post.querySelector(".add-comment-btn").addEventListener("click", () => {
+    const body = addCommentInput.value.trim();
+    addCommentInput.value = "";
+    console.log(body);
+    if (!body) {
+      return;
+    }
+    const comment = {
+      id: "23",
+      userId: "123",
+      profile_image: "../assets/design.png",
+      name: "2wer",
+      userName: "werg",
+      reactionCount: "0",
+      body: body,
+    };
+    commentSection.appendChild(createCommentItem(comment));
+    commentCount.textContent = +commentCount.textContent + 1;
+  });
+  post.querySelector(".post-setting-btn").onclick = () => {
+    settingMenu.classList.toggle("show");
+  };
+  post.querySelector(".removePost").onclick = () => {
+    document.querySelector(`.post[data-id="${id}"]`).remove();
+  };
+}
+
 function createPost({
   name,
   userName,
@@ -95,50 +141,17 @@ function createPost({
       </div>`);
   const commentCount = post.querySelector(".comment-count");
   const commentSection = post.querySelector(".comments");
-  for (const element of Object.values(comments)) {
-    commentSection.appendChild(createCommentItem(element));
-    commentCount.textContent = +commentCount.textContent + 1;
-  }
-  post.querySelector(".comment-btn").addEventListener("click", () => {
-    commentSection.classList.toggle("show");
-  });
-  const addCommentInput = post.querySelector(`.add-input`);
-  post.querySelector(".add-comment-btn").addEventListener("click", () => {
-    const body = addCommentInput.value.trim();
-    addCommentInput.value = "";
-    console.log(body);
-    if (!body) {
-      return;
-    }
-    const comment = {
-      id: "23",
-      userId: "123",
-      profile_image: "../assets/design.png",
-      name: "2wer",
-      userName: "werg",
-      reactionCount: "0",
-      body: body,
-    };
-    commentSection.appendChild(createCommentItem(comment));
-    commentCount.textContent = +commentCount.textContent + 1;
-  });
-  const settingMenu = post.querySelector(".post-setting-menu");
-  post.querySelector(".post-setting-btn").onclick = () => {
-    settingMenu.classList.toggle("show");
-  };
-  post.querySelector(".removePost").onclick = () => {
-    document.querySelector(`.post[data-id="${id}"]`).remove();
-  };
+
+  addComments(comments, commentSection, commentCount);
+  setFunctionlaity(post, commentSection, commentCount, id);
   return post;
 }
-const addPostbtn = document.getElementById("add-post-btn");
-const imageFileLoader = document.getElementById("imgUplaod");
-const clearImages = document.getElementById("clearImages");
-const preview = document.getElementById("file-preview");
+
 clearImages.onclick = () => {
   preview.setAttribute("src", "");
   clearImages.style.display = "none";
 };
+
 imageFileLoader.onchange = () => {
   const file = imageFileLoader.files;
   if (file) {
@@ -150,7 +163,8 @@ imageFileLoader.onchange = () => {
     fileReader.readAsDataURL(file[0]);
   }
 };
-addPostbtn.onclick = () => {
+
+function addPost() {
   const addPostInput = document.querySelector("#add-post textarea");
   const body = addPostInput.value.trim();
   if (!body) {
@@ -173,7 +187,9 @@ addPostbtn.onclick = () => {
   clearImages.click();
   addPostInput.value = "";
   document.getElementById("add-post").after(createPost(post));
-};
+}
+
+addPostbtn.addEventListener("click", addPost);
 (async () => {
   let post = {
     name: "moam",

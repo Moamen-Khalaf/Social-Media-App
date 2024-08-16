@@ -51,60 +51,63 @@
         </div>
       </div>
     </nav>
-    <!-- add post -->
-    <div
-      class="container mt-[70px] bg-secondary rounded-3xl overflow-hidden shadow-sm"
-      id="add-post"
-    >
-      <div class="flex p-4 *:block gap-4 items-center justify-between">
-        <img
-          src="./assets/design.png"
-          alt="userImge"
-          class="sm-image self-start"
-        />
-        <textarea
-          type="text"
-          placeholder="Write somthing...."
-          class="focus:outline-none flex-grow min-h-20 resize-y max-h-36 bg-transparent"
-        ></textarea>
-        <button class="fa-solid fa-pen"></button>
-      </div>
-      <div class="preview relative w-20 ml-4">
-        <img id="file-preview" />
-        <button
-          class="absolute top-[-12px] right-[-12px] text-primary hover:bg-accent px-2 bg-[#abc] rounded-full hidden"
-          id="clearImages"
-        >
-          X
-        </button>
-      </div>
+    <main id="home">
+      <!-- add post -->
       <div
-        class="text-[1.5rem] mt-4 flex items-center justify-between *:flex-grow *:text-center *:cursor-pointer"
+        class="container mt-[70px] bg-secondary rounded-3xl overflow-hidden shadow-sm"
+        id="add-post"
       >
-        <input
-          type="file"
-          name="imgUplaod"
-          id="imgUplaod"
-          accept=".jpg, .jpeg, .png"
-          class="hidden"
-        />
-        <input type="file" name="vidUplaod" id="vidUplaod" class="hidden" />
-        <label
-          class="py-5 pl-6 bg-[#edf9ff] fa-regular fa-image"
-          for="imgUplaod"
-        ></label>
-        <label
-          class="py-5 bg-[#edf9ff] fa-regular fa-file-video"
-          for="vidUplaod"
-        ></label>
-        <label class="py-5 bg-[#edf9ff] fa-regular fa-calendar-days"></label>
-        <label class="py-5 bg-[#edf9ff] fa-regular fa-newspaper"></label>
-        <button
-          class="py-5 pr-6 bg-[#c8edff] fa-regular fa-paper-plane"
-          id="add-post-btn"
-        ></button>
+        <div class="flex p-4 *:block gap-4 items-center justify-between">
+          <img
+            src="./assets/design.png"
+            alt="userImge"
+            class="sm-image self-start"
+          />
+          <textarea
+            type="text"
+            placeholder="Write somthing...."
+            class="focus:outline-none flex-grow min-h-20 resize-y max-h-36 bg-transparent"
+          ></textarea>
+          <button class="fa-solid fa-pen"></button>
+        </div>
+        <div class="preview relative w-20 ml-4">
+          <img id="file-preview" />
+          <button
+            class="absolute top-[-12px] right-[-12px] text-primary hover:bg-accent px-2 bg-[#abc] rounded-full hidden"
+            id="clearImages"
+          >
+            X
+          </button>
+        </div>
+        <div
+          class="text-[1.5rem] mt-4 flex items-center justify-between *:flex-grow *:text-center *:cursor-pointer"
+        >
+          <input
+            type="file"
+            name="imgUplaod"
+            id="imgUplaod"
+            accept=".jpg, .jpeg, .png"
+            class="hidden"
+          />
+          <input type="file" name="vidUplaod" id="vidUplaod" class="hidden" />
+          <label
+            class="py-5 pl-6 bg-[#edf9ff] fa-regular fa-image"
+            for="imgUplaod"
+          ></label>
+          <label
+            class="py-5 bg-[#edf9ff] fa-regular fa-file-video"
+            for="vidUplaod"
+          ></label>
+          <label class="py-5 bg-[#edf9ff] fa-regular fa-calendar-days"></label>
+          <label class="py-5 bg-[#edf9ff] fa-regular fa-newspaper"></label>
+          <button
+            class="py-5 pr-6 bg-[#c8edff] fa-regular fa-paper-plane"
+            id="add-post-btn"
+          ></button>
+        </div>
       </div>
-    </div>
+    </main>
+    <main id="profile"></main>
     <!-- Footer -->
     <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
       <div class="container text-center py-5 font-bold text-secondary">
