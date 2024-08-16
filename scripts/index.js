@@ -188,8 +188,27 @@ function addPost() {
   addPostInput.value = "";
   document.getElementById("add-post").after(createPost(post));
 }
-
 addPostbtn.addEventListener("click", addPost);
+
+const profileBtn = document.getElementById("profile-btn");
+const homeBtn = document.getElementById("home-btn");
+const homePage = document.getElementById("home");
+const profilePage = document.getElementById("profile");
+const loginPage = document.getElementById("login");
+const loginBtn = document.getElementById("login-btn");
+homeBtn.onclick = () => {
+  profileBtn.classList.remove("icon-active");
+  homeBtn.classList.add("icon-active");
+  homePage.style.display = "block";
+  profilePage.style.display = "none";
+};
+profileBtn.onclick = () => {
+  homeBtn.classList.remove("icon-active");
+  profileBtn.classList.add("icon-active");
+  homePage.style.display = "none";
+  profilePage.style.display = "block";
+};
+
 (async () => {
   let post = {
     name: "moam",
@@ -223,6 +242,11 @@ addPostbtn.addEventListener("click", addPost);
       },
     },
   };
-  document.getElementById("add-post").after(createPost(post));
+  homePage.appendChild(createPost(post));
+  homePage.appendChild(createPost(post));
+  homePage.appendChild(createPost(post));
+  profilePage.appendChild(createPost(post));
+  profilePage.appendChild(createPost(post));
+  profilePage.appendChild(createPost(post));
   //   document.getElementById("add-post").after(createPost(post));
 })();

@@ -15,11 +15,15 @@
         <h1 class="font-bold">Logo</h1>
       </div>
       <ul class="flex justify-between *:block *:cursor-pointer flex-grow gap-1">
-        <li class="py-4 hover:icon-active flex-grow text-center icon-active">
+        <li
+          class="py-4 hover:icon-active flex-grow text-center icon-active"
+          id="home-btn"
+        >
           <button class="fa-solid fa-house"></button>
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
+          id="profile-btn"
         >
           <button class="fa-solid fa-user"></button>
         </li>
@@ -36,7 +40,8 @@
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
         >
-          <button class="fa-solid fa-comment"></button>
+          <button class="fa-solid fa-right-to-bracket" id="login-btn"></button>
+          <!-- <button class="fa-solid fa-right-from-bracket" id="login"></button> -->
         </li>
       </ul>
       <div class="search-box">
@@ -51,7 +56,7 @@
         </div>
       </div>
     </nav>
-    <main id="home">
+    <main id="home" class="hidden">
       <!-- add post -->
       <div
         class="container mt-[70px] bg-secondary rounded-3xl overflow-hidden shadow-sm"
@@ -107,7 +112,24 @@
         </div>
       </div>
     </main>
-    <main id="profile"></main>
+    <main id="profile" class="hidden">
+      <div class="profile-header pt-[70px] flex items-center gap-5">
+        <div class="user-image mx-5 w-fit">
+          <img
+            src="assets/design.png"
+            class="block rounded-full w-[150px] object-cover object-center aspect-square"
+          />
+        </div>
+        <div class="flex-grow">
+          <h1 id="name" class="font-bold text-[1.8rem]">Moamen</h1>
+          <h3 id="usn" class="mt-2 text-[1.4rem] text-[#abc]">@msid</h3>
+        </div>
+        <button
+          class="fa-solid fa-ellipsis-vertical font-bold text-[2rem] mx-5 text-accent"
+        ></button>
+      </div>
+    </main>
+    <main id="login"></main>
     <!-- Footer -->
     <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
       <div class="container text-center py-5 font-bold text-secondary">
