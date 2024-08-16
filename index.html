@@ -7,36 +7,36 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/all.min.css" />
   </head>
-  <body class="bg-[#f6f6f6]">
+  <body class="bg-[#f6f6f6] relative min-h-[100vh]">
     <nav
-      class="fixed w-full flex justify-between px-1 sm:px-3 bg-secondary items-center shadow-md *:text-accent gap-1 h-[56px] top-0"
+      class="fixed w-full flex justify-between px-1 sm:px-3 bg-secondary items-center shadow-md *:text-accent gap-1 h-[56px] top-0 z-50"
     >
       <div class="w-fit sm:w-[25%] px-2 flex-shrink">
         <h1 class="font-bold">Logo</h1>
       </div>
       <ul class="flex justify-between *:block *:cursor-pointer flex-grow gap-1">
         <li class="py-4 hover:icon-active flex-grow text-center icon-active">
-          <i class="fa-solid fa-house"></i>
+          <button class="fa-solid fa-house"></button>
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
         >
-          <i class="fa-solid fa-user"></i>
+          <button class="fa-solid fa-user"></button>
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
         >
-          <i class="fa-solid fa-bell"></i>
+          <button class="fa-solid fa-bell"></button>
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
         >
-          <i class="fa-solid fa-user-group"></i>
+          <button class="fa-solid fa-user-group"></button>
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
         >
-          <i class="fa-solid fa-comment"></i>
+          <button class="fa-solid fa-comment"></button>
         </li>
       </ul>
       <div class="search-box">
@@ -67,15 +67,27 @@
           placeholder="Write somthing...."
           class="focus:outline-none flex-grow min-h-20 resize-y max-h-36 bg-transparent"
         ></textarea>
-        <i class="fa-solid fa-pen"></i>
+        <button class="fa-solid fa-pen"></button>
       </div>
-      <div class="preview">
-        <img src="" alt="" />
+      <div class="preview relative w-20 ml-4">
+        <img id="file-preview" />
+        <button
+          class="absolute top-[-12px] right-[-12px] text-primary hover:bg-accent px-2 bg-[#abc] rounded-full hidden"
+          id="clearImages"
+        >
+          X
+        </button>
       </div>
       <div
         class="text-[1.5rem] mt-4 flex items-center justify-between *:flex-grow *:text-center *:cursor-pointer"
       >
-        <input type="file" name="imgUplaod" id="imgUplaod" class="hidden" />
+        <input
+          type="file"
+          name="imgUplaod"
+          id="imgUplaod"
+          accept=".jpg, .jpeg, .png"
+          class="hidden"
+        />
         <input type="file" name="vidUplaod" id="vidUplaod" class="hidden" />
         <label
           class="py-5 pl-6 bg-[#edf9ff] fa-regular fa-image"
@@ -93,78 +105,8 @@
         ></button>
       </div>
     </div>
-    <!-- Post1 -->
-    <div class="post">
-      <!-- header -->
-      <div class="post-header">
-        <div class="post-user">
-          <img src="assets/design.png" alt="" class="sm-image" />
-          <div>
-            <h3>User</h3>
-            <h4>UserName</h4>
-          </div>
-        </div>
-        <div>
-          <button class="fa-solid fa-ellipsis-vertical"></button>
-          <div class="post-setting-menu"></div>
-        </div>
-      </div>
-      <!-- desc -->
-      <div class="desc">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
-        veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
-        inventore, voluptates harum et consectetur ex vero qui! Sint non commodi
-        odio laboriosam!
-      </div>
-      <!-- post image -->
-      <div class="post-image">
-        <img src="assets/design.png" alt="" />
-      </div>
-      <div>
-        <div class="post-reaction">
-          <div>
-            <i class="fa-regular fa-heart"></i>
-            <span>0</span>
-          </div>
-          <i class="fa-solid fa-comment"></i>
-        </div>
-        <div class="comments">
-          <div class="comment-item">
-            <div class="comment-header">
-              <div class="comment-user">
-                <img src="assets/design.png" alt="" />
-                <div>
-                  <h3 class="font-bold">User</h3>
-                  <h4 class="text-[#abc]">UserName</h4>
-                </div>
-              </div>
-              <div>
-                <span>0</span>
-                <i class="fa-regular fa-heart"></i>
-              </div>
-            </div>
-            <div class="desc">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
-              veniam impedit reiciendis culpa perspiciatis doloremque, est ipsam
-              inventore, voluptates harum et consectetur ex vero qui! Sint non
-              commodi odio laboriosam!
-            </div>
-          </div>
-        </div>
-        <!-- add comment -->
-        <div class="add-comment">
-          <img src="./assets/design.png" alt="userImge" />
-          <input
-            type="text"
-            placeholder="Write somthing...."
-            class="add-input"
-          />
-          <button class="fa-solid fa-paper-plane text-accent"></button>
-        </div>
-      </div>
-    </div>
     <!-- Footer -->
-    <footer class="bg-accent">
+    <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
       <div class="container text-center py-5 font-bold text-secondary">
         @2024 Copyrights
       </div>
