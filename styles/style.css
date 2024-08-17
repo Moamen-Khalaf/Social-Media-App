@@ -629,6 +629,10 @@ video {
   margin-right: 1.25rem;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .ml-4 {
   margin-left: 1rem;
 }
@@ -926,6 +930,10 @@ video {
   font-weight: 700;
 }
 
+.font-medium {
+  font-weight: 500;
+}
+
 .font-semibold {
   font-weight: 600;
 }
@@ -942,6 +950,16 @@ video {
   color: rgb(var(--dark));
 }
 
+.text-gray-900 {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
+.text-neutral-900 {
+  --tw-text-opacity: 1;
+  color: rgb(23 23 23 / var(--tw-text-opacity));
+}
+
 .text-primary {
   color: rgb(var(--primary));
 }
@@ -953,11 +971,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-gray-900 {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
 .shadow-lg {
@@ -1209,10 +1222,13 @@ video {
         cursor: pointer;
       }
       button {
-        border-width: 1px;
+        border-bottom-width: 1px;
       }
       button {
         border-style: solid;
+      }
+      button {
+        border-color: rgb(var(--DEFAULT));
       }
       button {
         padding-left: 0.5rem;
@@ -1224,6 +1240,9 @@ video {
       }
       button:last-of-type {
         border-style: none;
+      }
+      button:hover {
+        background-color: rgb(var(--secondary));
       }
       button:hover {
         color: rgb(var(--accent));
@@ -1277,11 +1296,22 @@ video {
     text-wrap: wrap;
   }
   .post-image img {
+    max-height: 300px;
+  }
+  .post-image img {
     width: 100%;
   }
   .post-image img {
     -o-object-fit: cover;
        object-fit: cover;
+  }
+  .post-image img {
+    -o-object-position: center;
+       object-position: center;
+  }
+  .post-image img.show {
+    max-height: -moz-max-content;
+    max-height: max-content;
   }
   .post-reaction {
     display: flex;
@@ -1571,11 +1601,6 @@ img[src="#"] {
   background-color: rgb(var(--accent));
 }
 
-.hover\:text-white:hover {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .hover\:icon-active:hover {
   border-bottom-width: 2px;
   border-color: rgb(var(--accent));
@@ -1602,6 +1627,11 @@ img[src="#"] {
 }
 
 @media (prefers-color-scheme: dark) {
+  .dark\:text-neutral-300 {
+    --tw-text-opacity: 1;
+    color: rgb(212 212 212 / var(--tw-text-opacity));
+  }
+
   .dark\:text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));

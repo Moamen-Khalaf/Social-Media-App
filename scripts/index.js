@@ -54,7 +54,10 @@ function setFunctionlaity(post, commentSection, commentCount, id) {
   const addCommentInput = post.querySelector(`.add-input`);
   const settingMenu = post.querySelector(".post-setting-menu");
   const descSecion = post.querySelector(".desc");
-
+  const postImage = post.querySelector(".post-image img");
+  postImage.addEventListener("click", () => {
+    postImage.classList.toggle("show");
+  });
   post.querySelector(".comment-btn").addEventListener("click", () => {
     commentSection.classList.toggle("show");
   });
@@ -115,6 +118,7 @@ function createPost({
             <button class="post-setting-btn fa-solid fa-ellipsis-vertical"></button>
             <div class="post-setting-menu">
                 <button class="removePost">Remove Post</button>
+                <button class="editPost">Edit Post</button>
             </div>
           </div>
         </div>
@@ -192,6 +196,7 @@ function addPost() {
     userId: "34",
     profile_image: "../assets/design.png",
     body: body,
+    title: "Lorem",
     image: image,
     reactionCount: "0",
     commentCount: "0",

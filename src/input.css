@@ -69,8 +69,8 @@
       .post-setting-menu {
         @apply scale-0 absolute left-[-125px] bg-primary rounded-lg overflow-hidden;
         button {
-          @apply w-[130px] px-2 py-1 hover:text-accent
-          border border-solid cursor-pointer last-of-type:border-none;
+          @apply w-[130px] px-2 py-1 hover:text-accent hover:bg-secondary
+          border-b border-customGray border-solid cursor-pointer last-of-type:border-none;
         }
       }
       .post-setting-menu.show {
@@ -87,7 +87,10 @@
       @apply overflow-visible whitespace-normal text-wrap;
     }
     .post-image img {
-      @apply w-full object-cover;
+      @apply w-full object-cover object-center max-h-[300px];
+    }
+    .post-image img.show {
+      @apply max-h-max;
     }
     .post-reaction {
       @apply px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center;
