@@ -17,17 +17,14 @@
   --DEFAULT: 107, 114, 128; /* #6b7280 */
   --dark: #abc; /* #4b5563 */
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary: 18, 18, 18; /* #121212 */
-    --secondary: 30, 30, 30; /* #1e1e1e */
-    --accent: 0, 172, 255; /* #00acff */
-    --customRed: 255, 76, 76; /* #ff4c4c */
-    --light: 75, 85, 99; /* #3a3a3a */
-    --DEFAULT: 200, 200, 200; /* #a1a1a1 */
-    --dark: 209, 213, 219; /* #737373 */
-  }
+.dark:root {
+  --primary: 18, 18, 18; /* #121212 */
+  --secondary: 30, 30, 30; /* #1e1e1e */
+  --accent: 0, 172, 255; /* #00acff */
+  --customRed: 255, 76, 76; /* #ff4c4c */
+  --light: 75, 85, 99; /* #3a3a3a */
+  --DEFAULT: 200, 200, 200; /* #a1a1a1 */
+  --dark: 209, 213, 219; /* #737373 */
 }
 
 @layer utilities {
@@ -141,4 +138,20 @@
 }
 img[src="#"] {
   @apply hidden;
+}
+#toggle-mode[dark] {
+  button:first-child {
+    scale: 1;
+  }
+  button:last-child {
+    scale: 0;
+  }
+}
+#toggle-mode {
+  button:first-child {
+    scale: 0;
+  }
+  button:last-child {
+    scale: 1;
+  }
 }

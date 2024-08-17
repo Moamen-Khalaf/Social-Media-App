@@ -183,8 +183,10 @@ imageFileLoader.addEventListener("change", () => {
 
 function addPost() {
   const addPostInput = document.querySelector("#add-post textarea");
+  const titleInput = document.querySelector("#add-post input");
   const body = escapeHtml(addPostInput.value.trim());
-  if (!body) {
+  const title = escapeHtml(titleInput.value.trim());
+  if (!body && !title) {
     return;
   }
   const image = preview.getAttribute("src") || "#";
@@ -196,7 +198,7 @@ function addPost() {
     userId: "34",
     profile_image: "../assets/design.png",
     body: body,
-    title: "Lorem",
+    title: title,
     image: image,
     reactionCount: "0",
     commentCount: "0",
@@ -204,6 +206,7 @@ function addPost() {
   };
   clearImages.click();
   addPostInput.value = "";
+  titleInput.value = "";
   document.getElementById("add-post").after(createPost(post));
 }
 addPostbtn.addEventListener("click", addPost);
@@ -249,6 +252,12 @@ loginBtn.addEventListener("click", () => {
 registerBtn.addEventListener("click", () => {
   registerPage.style.display = "flex";
   loginPage.style.display = "none";
+});
+const toggleModeBtn = document.getElementById("toggle-mode");
+toggleModeBtn.addEventListener("click", () => {
+  toggleModeBtn.toggleAttribute("dark");
+  //   document.body.classList.toggle("dark");
+  document.documentElement.classList.toggle("dark");
 });
 (async () => {
   if (!localStorage.getItem("userData")) {
