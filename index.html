@@ -29,19 +29,9 @@
         </li>
         <li
           class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
+          id="sign-page-btn"
         >
-          <button class="fa-solid fa-bell"></button>
-        </li>
-        <li
-          class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
-        >
-          <button class="fa-solid fa-user-group"></button>
-        </li>
-        <li
-          class="py-4 hover:border-b-2 hover:border-accent flex-grow text-center"
-        >
-          <button class="fa-solid fa-right-to-bracket" id="login-btn"></button>
-          <!-- <button class="fa-solid fa-right-from-bracket" id="login"></button> -->
+          <button class="fa-solid fa-right-to-bracket"></button>
         </li>
       </ul>
       <div class="search-box">
@@ -52,7 +42,7 @@
           placeholder="Search for anyone ....."
         />
         <div id="userSearchedItems">
-          <div class="searched-item">Lorem ipsum dolor sit amet.</div>
+          <div class="searched-item">Moamen.kh</div>
         </div>
       </div>
     </nav>
@@ -113,23 +103,124 @@
       </div>
     </main>
     <main id="profile" class="hidden">
-      <div class="profile-header pt-[70px] flex items-center gap-5">
-        <div class="user-image mx-5 w-fit">
+      <div
+        class="container profile-header py-[70px] flex items-center gap-5 border-b-4 border-[#abc]"
+      >
+        <div class="user-image w-fit">
           <img
             src="assets/design.png"
-            class="block rounded-full w-[150px] object-cover object-center aspect-square"
+            class="block rounded-full w-[150px] object-cover object-center aspect-square border-4 border-accent"
           />
         </div>
         <div class="flex-grow">
-          <h1 id="name" class="font-bold text-[1.8rem]">Moamen</h1>
+          <h1 id="name" class="font-bold text-[1.8rem] text-accent">Moamen</h1>
           <h3 id="usn" class="mt-2 text-[1.4rem] text-[#abc]">@msid</h3>
         </div>
         <button
-          class="fa-solid fa-ellipsis-vertical font-bold text-[2rem] mx-5 text-accent"
+          class="fa-solid fa-right-from-bracket font-bold text-[2rem] mx-5 text-accent"
         ></button>
       </div>
     </main>
-    <main id="login"></main>
+    <main id="sign-page">
+      <div
+        class="container mt-[100px] bg-secondary rounded-md overflow-hidden shadow-lg py-8 px-5 flex flex-col gap-4 max-w-[500px] hidden"
+        id="login"
+      >
+        <input
+          type="text"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="User Name"
+        />
+        <input
+          type="password"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="Password"
+        />
+        <div class="flex gap-2 items-center">
+          <input type="checkbox" id="polices" class="peer" />
+          <label
+            for="polices"
+            class="select-none font-semibold text-[#abc] peer-checked:text-[#333]"
+            >Agree to all polices</label
+          >
+        </div>
+        <button
+          type="button"
+          class="border-2 py-2 rounded-md bg-accent text-primary font-semibold"
+        >
+          Login
+        </button>
+        <div>
+          <label>Don't have an account?</label>
+          <button
+            type="button"
+            class="text-accent font-semibold"
+            id="register-btn"
+          >
+            Register
+          </button>
+        </div>
+      </div>
+      <div
+        id="register"
+        class="container mt-[100px] bg-secondary rounded-md overflow-hidden shadow-lg py-8 px-5 flex flex-col gap-4 max-w-[500px]"
+      >
+        <input
+          type="text"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="User Name"
+        />
+        <input
+          type="password"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="Password"
+        />
+        <input
+          type="text"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="Name"
+        />
+        <input
+          type="email"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          placeholder="Email"
+        />
+        <div class="flex items-center gap-2">
+          <label for="usimg" class="w-[30%] font-semibold text-[#abc]"
+            >Profile Image:
+          </label>
+          <input
+            id="usimg"
+            type="file"
+            class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          />
+        </div>
+        <div class="flex gap-2 items-center">
+          <input type="checkbox" id="polices-reg" class="peer" />
+          <label
+            for="polices-reg"
+            class="select-none font-semibold text-[#abc] peer-checked:text-[#333]"
+            >Agree to all polices</label
+          >
+        </div>
+        <button
+          type="button"
+          class="border-2 py-2 rounded-md bg-accent text-primary font-semibold"
+        >
+          Register
+        </button>
+        <div>
+          <label>have an account?</label>
+          <button
+            type="button"
+            class="text-accent font-semibold"
+            id="login-btn"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </main>
     <!-- Footer -->
     <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
       <div class="container text-center py-5 font-bold text-secondary">

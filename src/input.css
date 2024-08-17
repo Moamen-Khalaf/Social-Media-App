@@ -101,6 +101,9 @@
       }
     }
   }
+  .incorrect-input {
+    @apply border border-solid border-red-500;
+  }
 }
 #file-preview {
   @apply max-w-full;

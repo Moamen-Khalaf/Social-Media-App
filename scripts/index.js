@@ -3,7 +3,14 @@ const addPostbtn = document.getElementById("add-post-btn");
 const imageFileLoader = document.getElementById("imgUplaod");
 const clearImages = document.getElementById("clearImages");
 const preview = document.getElementById("file-preview");
-
+const escapeHtml = (unsafe) => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
 function createCommentItem({
   id,
   userId,
@@ -13,6 +20,7 @@ function createCommentItem({
   reactionCount,
   body,
 }) {
+  body = escapeHtml(body);
   const comment = document.createRange()
     .createContextualFragment(`<div class="comment-item">
               <div class="comment-header">
@@ -166,7 +174,7 @@ imageFileLoader.onchange = () => {
 
 function addPost() {
   const addPostInput = document.querySelector("#add-post textarea");
-  const body = addPostInput.value.trim();
+  const body = escapeHtml(addPostInput.value.trim());
   if (!body) {
     return;
   }
@@ -190,26 +198,53 @@ function addPost() {
 }
 addPostbtn.addEventListener("click", addPost);
 
-const profileBtn = document.getElementById("profile-btn");
-const homeBtn = document.getElementById("home-btn");
 const homePage = document.getElementById("home");
 const profilePage = document.getElementById("profile");
-const loginPage = document.getElementById("login");
-const loginBtn = document.getElementById("login-btn");
-homeBtn.onclick = () => {
+const signPage = document.getElementById("sign-page");
+const homeBtn = document.getElementById("home-btn");
+const profileBtn = document.getElementById("profile-btn");
+const signBtn = document.getElementById("sign-page-btn");
+function removeSelectedPages() {
   profileBtn.classList.remove("icon-active");
+  homeBtn.classList.remove("icon-active");
+  signBtn.classList.remove("icon-active");
+  homePage.style.display = "none";
+  profilePage.style.display = "none";
+  signPage.style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+homeBtn.onclick = () => {
+  removeSelectedPages();
   homeBtn.classList.add("icon-active");
   homePage.style.display = "block";
-  profilePage.style.display = "none";
 };
 profileBtn.onclick = () => {
-  homeBtn.classList.remove("icon-active");
+  removeSelectedPages();
   profileBtn.classList.add("icon-active");
-  homePage.style.display = "none";
   profilePage.style.display = "block";
 };
-
+signBtn.onclick = () => {
+  removeSelectedPages();
+  signBtn.classList.add("icon-active");
+  signPage.style.display = "block";
+};
+const loginBtn = document.getElementById("login-btn");
+const registerBtn = document.getElementById("register-btn");
+const loginPage = document.getElementById("login");
+const registerPage = document.getElementById("register");
+loginBtn.onclick = () => {
+  loginPage.style.display = "flex";
+  registerPage.style.display = "none";
+};
+registerBtn.onclick = () => {
+  registerPage.style.display = "flex";
+  loginPage.style.display = "none";
+};
 (async () => {
+  if (!localStorage.getItem("userData")) {
+    signBtn.click();
+  }
   let post = {
     name: "moam",
     userName: "test",
@@ -248,5 +283,4 @@ profileBtn.onclick = () => {
   profilePage.appendChild(createPost(post));
   profilePage.appendChild(createPost(post));
   profilePage.appendChild(createPost(post));
-  //   document.getElementById("add-post").after(createPost(post));
 })();
