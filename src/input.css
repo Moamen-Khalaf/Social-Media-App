@@ -8,6 +8,28 @@
   @apply box-border;
   /* outline: 1px solid red; */
 }
+:root {
+  --primary: 241, 241, 241; /* #f1f1f1 */
+  --secondary: 255, 255, 255; /* #ffffff */
+  --accent: 0, 172, 255; /* #00acff */
+  --customRed: 255, 1, 1; /* #ff0101 */
+  --light: 209, 213, 219; /* #d1d5db */
+  --DEFAULT: 107, 114, 128; /* #6b7280 */
+  --dark: #abc; /* #4b5563 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: 18, 18, 18; /* #121212 */
+    --secondary: 30, 30, 30; /* #1e1e1e */
+    --accent: 0, 172, 255; /* #00acff */
+    --customRed: 255, 76, 76; /* #ff4c4c */
+    --light: 75, 85, 99; /* #3a3a3a */
+    --DEFAULT: 200, 200, 200; /* #a1a1a1 */
+    --dark: 209, 213, 219; /* #737373 */
+  }
+}
+
 @layer utilities {
   .container {
     width: calc(100% - 1rem);
@@ -24,7 +46,7 @@
     #userSearchedItems {
       @apply absolute left-0 w-full top-full h-fit bg-secondary scale-0 peer-focus:scale-100;
       .searched-item {
-        @apply py-2 px-1 hover:bg-[#abc] hover:text-secondary font-light;
+        @apply py-2 px-1 hover:bg-customGray-dark hover:text-secondary font-light;
       }
     }
   }
@@ -41,7 +63,7 @@
           @apply font-bold;
         }
         h4 {
-          @apply text-[#abc];
+          @apply text-customGray-dark;
         }
       }
       .post-setting-menu {
@@ -55,8 +77,14 @@
         @apply scale-100;
       }
     }
+    .title {
+      @apply px-4 text-[1.3rem] font-medium mt-3;
+    }
     .desc {
-      @apply font-medium px-4 py-3;
+      @apply font-normal px-4 py-3 truncate text-customGray;
+    }
+    .desc.show {
+      @apply overflow-visible whitespace-normal text-wrap;
     }
     .post-image img {
       @apply w-full object-cover;
@@ -79,7 +107,7 @@
               @apply font-bold;
             }
             h4 {
-              @apply text-[#abc];
+              @apply text-customGray-dark;
             }
           }
         }
@@ -102,7 +130,7 @@
     }
   }
   .incorrect-input {
-    @apply border border-solid border-red-500;
+    @apply border border-solid border-customRed;
   }
 }
 #file-preview {

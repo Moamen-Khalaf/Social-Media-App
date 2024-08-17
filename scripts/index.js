@@ -53,13 +53,17 @@ function addComments(comments, commentSection, commentCount) {
 function setFunctionlaity(post, commentSection, commentCount, id) {
   const addCommentInput = post.querySelector(`.add-input`);
   const settingMenu = post.querySelector(".post-setting-menu");
+  const descSecion = post.querySelector(".desc");
+
   post.querySelector(".comment-btn").addEventListener("click", () => {
     commentSection.classList.toggle("show");
   });
+  descSecion.addEventListener("click", () => {
+    descSecion.classList.toggle("show");
+  });
   post.querySelector(".add-comment-btn").addEventListener("click", () => {
-    const body = addCommentInput.value.trim();
+    const body = escapeHtml(addCommentInput.value.trim());
     addCommentInput.value = "";
-    console.log(body);
     if (!body) {
       return;
     }
@@ -75,12 +79,12 @@ function setFunctionlaity(post, commentSection, commentCount, id) {
     commentSection.appendChild(createCommentItem(comment));
     commentCount.textContent = +commentCount.textContent + 1;
   });
-  post.querySelector(".post-setting-btn").onclick = () => {
+  post.querySelector(".post-setting-btn").addEventListener("click", () => {
     settingMenu.classList.toggle("show");
-  };
-  post.querySelector(".removePost").onclick = () => {
+  });
+  post.querySelector(".removePost").addEventListener("click", () => {
     document.querySelector(`.post[data-id="${id}"]`).remove();
-  };
+  });
 }
 
 function createPost({
@@ -91,6 +95,7 @@ function createPost({
   userId,
   profile_image,
   body,
+  title,
   image,
   reactionCount,
   comments,
@@ -114,6 +119,7 @@ function createPost({
           </div>
         </div>
         <!-- desc -->
+        <h4 class="title">${title}</h4>
         <div class="desc">
           ${body}
         </div>
@@ -155,12 +161,11 @@ function createPost({
   return post;
 }
 
-clearImages.onclick = () => {
+clearImages.addEventListener("click", () => {
   preview.setAttribute("src", "");
   clearImages.style.display = "none";
-};
-
-imageFileLoader.onchange = () => {
+});
+imageFileLoader.addEventListener("change", () => {
   const file = imageFileLoader.files;
   if (file) {
     const fileReader = new FileReader();
@@ -170,7 +175,7 @@ imageFileLoader.onchange = () => {
     };
     fileReader.readAsDataURL(file[0]);
   }
-};
+});
 
 function addPost() {
   const addPostInput = document.querySelector("#add-post textarea");
@@ -213,37 +218,37 @@ function removeSelectedPages() {
   signPage.style.display = "none";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-homeBtn.onclick = () => {
+homeBtn.addEventListener("click", () => {
   removeSelectedPages();
   homeBtn.classList.add("icon-active");
   homePage.style.display = "block";
-};
-profileBtn.onclick = () => {
+});
+profileBtn.addEventListener("click", () => {
   removeSelectedPages();
   profileBtn.classList.add("icon-active");
   profilePage.style.display = "block";
-};
-signBtn.onclick = () => {
+});
+signBtn.addEventListener("click", () => {
   removeSelectedPages();
   signBtn.classList.add("icon-active");
   signPage.style.display = "block";
-};
+});
 const loginBtn = document.getElementById("login-btn");
 const registerBtn = document.getElementById("register-btn");
 const loginPage = document.getElementById("login");
 const registerPage = document.getElementById("register");
-loginBtn.onclick = () => {
+loginBtn.addEventListener("click", () => {
   loginPage.style.display = "flex";
   registerPage.style.display = "none";
-};
-registerBtn.onclick = () => {
+});
+registerBtn.addEventListener("click", () => {
   registerPage.style.display = "flex";
   loginPage.style.display = "none";
-};
+});
 (async () => {
   if (!localStorage.getItem("userData")) {
-    signBtn.click();
+    // signBtn.click();
+    homeBtn.click();
   }
   let post = {
     name: "moam",
@@ -252,7 +257,29 @@ registerBtn.onclick = () => {
     userImge: "../assets/design.png",
     userId: "34",
     profile_image: "../assets/design.png",
-    body: "lorefgkjh nfdkdmfjn",
+    body: `class UserActions extends URLs {
+  async #fetchURL(url, config) {
+    try {
+      const response = await fetch(url, config);
+      if (!response.ok) {
+        
+      }
+      return await response.json();
+    } catch (error) {
+      
+    }
+  }
+  async login() {}
+  async register() {}
+  async getPosts() {}
+  async getUserPosts() {}
+  async getPostComments() {}
+  async getUserProfile() {}
+  logout(removeLocalData = true) {
+    !removeLocalData || localStorage.removeItem("userData");
+  }
+}`,
+    title: "Lorem",
     image: "../assets/design.png",
     reactionCount: "12",
     commentCount: "5",

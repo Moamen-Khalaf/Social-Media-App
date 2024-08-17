@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="styles/all.min.css" />
   </head>
-  <body class="bg-[#f6f6f6] relative min-h-[100vh]">
+  <body class="bg-primary relative min-h-[100vh] text-customGray">
     <nav
       class="fixed w-full flex justify-between px-1 sm:px-3 bg-secondary items-center shadow-md *:text-accent gap-1 h-[56px] top-0 z-50"
     >
@@ -38,7 +38,7 @@
         <input
           type="search"
           name="userSearch"
-          class="w-full border border-solid focus:outline-none p-1 rounded-md peer"
+          class="w-full border border-solid focus:outline-none p-1 rounded-md peer bg-customGray-light"
           placeholder="Search for anyone ....."
         />
         <div id="userSearchedItems">
@@ -68,7 +68,7 @@
         <div class="preview relative w-20 ml-4">
           <img id="file-preview" />
           <button
-            class="absolute top-[-12px] right-[-12px] text-primary hover:bg-accent px-2 bg-[#abc] rounded-full hidden"
+            class="absolute top-[-12px] right-[-12px] text-primary hover:bg-accent px-2 bg-customGray-dark rounded-full hidden"
             id="clearImages"
           >
             X
@@ -86,25 +86,30 @@
           />
           <input type="file" name="vidUplaod" id="vidUplaod" class="hidden" />
           <label
-            class="py-5 pl-6 bg-[#edf9ff] fa-regular fa-image"
+            class="py-5 pl-6 bg-accent bg-opacity-20 fa-regular fa-image text-gray-900 dark:text-white"
             for="imgUplaod"
           ></label>
           <label
-            class="py-5 bg-[#edf9ff] fa-regular fa-file-video"
+            class="py-5 bg-accent bg-opacity-20 fa-regular fa-file-video text-gray-900 dark:text-white"
             for="vidUplaod"
           ></label>
-          <label class="py-5 bg-[#edf9ff] fa-regular fa-calendar-days"></label>
-          <label class="py-5 bg-[#edf9ff] fa-regular fa-newspaper"></label>
+          <label
+            class="py-5 bg-accent bg-opacity-20 fa-regular fa-calendar-days text-gray-900 dark:text-white"
+          ></label>
+          <label
+            class="py-5 bg-accent bg-opacity-20 fa-regular fa-newspaper text-gray-900 dark:text-white"
+          ></label>
           <button
-            class="py-5 pr-6 bg-[#c8edff] fa-regular fa-paper-plane"
+            class="py-5 pr-6 bg-accent bg-opacity-40 fa-regular fa-paper-plane text-gray-900 dark:text-white"
             id="add-post-btn"
           ></button>
         </div>
       </div>
+      <!-- posts -->
     </main>
     <main id="profile" class="hidden">
       <div
-        class="container profile-header py-[70px] flex items-center gap-5 border-b-4 border-[#abc]"
+        class="container profile-header py-[70px] flex items-center gap-5 border-b-4 border-customGray-dark"
       >
         <div class="user-image w-fit">
           <img
@@ -114,7 +119,9 @@
         </div>
         <div class="flex-grow">
           <h1 id="name" class="font-bold text-[1.8rem] text-accent">Moamen</h1>
-          <h3 id="usn" class="mt-2 text-[1.4rem] text-[#abc]">@msid</h3>
+          <h3 id="usn" class="mt-2 text-[1.4rem] text-customGray-dark">
+            @msid
+          </h3>
         </div>
         <button
           class="fa-solid fa-right-from-bracket font-bold text-[2rem] mx-5 text-accent"
@@ -128,25 +135,25 @@
       >
         <input
           type="text"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="User Name"
         />
         <input
           type="password"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="Password"
         />
         <div class="flex gap-2 items-center">
           <input type="checkbox" id="polices" class="peer" />
           <label
             for="polices"
-            class="select-none font-semibold text-[#abc] peer-checked:text-[#333]"
+            class="select-none font-semibold text-customGray-dark peer-checked:text-customGray"
             >Agree to all polices</label
           >
         </div>
         <button
           type="button"
-          class="border-2 py-2 rounded-md bg-accent text-primary font-semibold"
+          class="border-2 py-2 rounded-md bg-accent text-white font-semibold"
         >
           Login
         </button>
@@ -167,45 +174,45 @@
       >
         <input
           type="text"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="User Name"
         />
         <input
           type="password"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="Password"
         />
         <input
           type="text"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="Name"
         />
         <input
           type="email"
-          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+          class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="Email"
         />
         <div class="flex items-center gap-2">
-          <label for="usimg" class="w-[30%] font-semibold text-[#abc]"
+          <label for="usimg" class="w-[30%] font-semibold text-customGray-dark"
             >Profile Image:
           </label>
           <input
             id="usimg"
             type="file"
-            class="w-full p-3 border-2 border-solid rounded-md focus:outline-none"
+            class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           />
         </div>
         <div class="flex gap-2 items-center">
           <input type="checkbox" id="polices-reg" class="peer" />
           <label
             for="polices-reg"
-            class="select-none font-semibold text-[#abc] peer-checked:text-[#333]"
+            class="select-none font-semibold text-customGray-dark peer-checked:text-customGray"
             >Agree to all polices</label
           >
         </div>
         <button
           type="button"
-          class="border-2 py-2 rounded-md bg-accent text-primary font-semibold"
+          class="border-2 py-2 rounded-md bg-accent text-white font-semibold"
         >
           Register
         </button>
@@ -223,11 +230,14 @@
     </main>
     <!-- Footer -->
     <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
-      <div class="container text-center py-5 font-bold text-secondary">
+      <div
+        class="container text-center py-5 font-bold text-secondary text-customGray"
+      >
         @2024 Copyrights
       </div>
     </footer>
-    <!-- <script src="scripts/all.min.js"></script> -->
     <script src="scripts/index.js"></script>
+    <script src="scripts/data.js" type="module"></script>
+    <script src="scripts/auth.js" type="module"></script>
   </body>
 </html>
