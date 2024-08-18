@@ -6,28 +6,38 @@ export function escapeHtml(unsafe) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-function createCommentItem({
-  id,
-  userId,
-  profile_image,
-  name,
-  userName,
-  reactionCount,
-  body,
-}) {
+export function createCommentItem(
+  {
+    body,
+    id,
+    author: {
+      created_at,
+      email,
+      email_verified_at,
+      id: userId,
+      is_fake,
+      name,
+      profile_image,
+      remember_token,
+      updated_at,
+      username,
+    },
+  },
+  dest
+) {
   body = escapeHtml(body);
   const comment = document.createRange()
     .createContextualFragment(`<div class="comment-item">
               <div class="comment-header">
-                <div class="comment-user" data-id=${id} data-user-id=${userId}>
-                  <img src=${profile_image}  />
+                <div class="comment-user" data-id=${id} >
+                  <img src=${profile_image}  data-user-id=${userId} />
                   <div>
                      <h3>${name}</h3>
-                     <h4>${userName}</h4>
+                     <h4>${username}</h4>
                   </div>
                 </div>
                 <div>
-                  <span>${reactionCount}</span>
+                  <span>0</span>
                   <button class="fa-regular fa-heart"></button>
                 </div>
               </div>
@@ -35,7 +45,7 @@ function createCommentItem({
                 ${body}
               </div>
             </div>`);
-  return comment;
+  dest.appendChild(comment);
 }
 
 function setPostActions(post, id) {
@@ -56,24 +66,6 @@ function setPostActions(post, id) {
   });
   descSecion.addEventListener("click", () => {
     descSecion.classList.toggle("show");
-  });
-  addCommentBtn.addEventListener("click", () => {
-    const body = escapeHtml(addCommentInput.value.trim());
-    addCommentInput.value = "";
-    if (!body) {
-      return;
-    }
-    const comment = {
-      id: "23",
-      userId: "123",
-      profile_image: "../assets/design.png",
-      name: "2wer",
-      userName: "werg",
-      reactionCount: "0",
-      body: body,
-    };
-    commentSection.appendChild(createCommentItem(comment));
-    commentCount.textContent = +commentCount.textContent + 1;
   });
   postSetting.addEventListener("click", () => {
     settingMenu.classList.toggle("show");
@@ -111,8 +103,8 @@ export function createPost(
     .createContextualFragment(`<div class="post" data-id=${id}>
         <!-- header -->
         <div class="post-header">
-          <div class="post-user" data-user-id=${user_id}>
-            <img src=${profile_image}  class="sm-image" />
+          <div class="post-user" >
+            <img src=${profile_image}  class="sm-image"  data-user-id=${user_id} />
             <div>
               <h3>${name}</h3>
               <h4>${username}</h4>
@@ -146,7 +138,7 @@ export function createPost(
                 <button class="comment-btn fa-solid fa-comment" data-id=${id}></button>
             </div>
           </div>
-          <div class="comments">
+          <div class="comments" data-id=${id} >
             
           </div>
           <!-- add comment -->
@@ -156,6 +148,7 @@ export function createPost(
               type="text"
               placeholder="Write something..."
               class="add-input"
+              data-id=${id}
             />
             <button class="add-comment-btn fa-solid fa-paper-plane text-accent" data-id=${id}></button>
           </div>

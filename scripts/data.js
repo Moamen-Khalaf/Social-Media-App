@@ -1,15 +1,51 @@
 import UserActions from "./auth.js";
 import { profileBtn, profilePage, signBtn } from "./actions.js";
-import { createPost } from "./layout.js";
+import { createCommentItem, createPost } from "./layout.js";
 const user = new UserActions();
 // yarob11123
 // 123456
 const loginBtn = document.getElementById("sign-login-btn");
 async function loadPosts() {}
+async function addComment(postId) {
+  const commentsSection = document.querySelector(
+    `.comments[data-id="${postId}"]`
+  );
+  const body = document
+    .querySelector(`.add-input[data-id="${postId}"]`)
+    .value.trim();
+  const comment = await user.createComment(postId, body);
+  console.log(comment);
+  if (comment) {
+    createCommentItem(comment, commentsSection);
+  }
+}
+async function loadComments(postId) {
+  const comments = await user.getPostComments(postId);
+  for (const comment of comments) {
+    const commentsSection = document.querySelector(
+      `.comments[data-id="${postId}"]`
+    );
+    createCommentItem(comment, commentsSection);
+  }
+}
+
 async function loadUserPosts() {
   const posts = await user.getUserPosts();
   for (const post of posts) {
     createPost(post, profilePage);
+
+    const showComments = document.querySelector(
+      `.comment-btn[data-id="${post.id}"]`
+    );
+    showComments.addEventListener("click", () => {
+      loadComments(post.id);
+    });
+    const addCommentButton = document.querySelector(
+      `.add-comment-btn[data-id="${post.id}"]`
+    );
+    addCommentButton.addEventListener("click", async () => {
+      addComment(post.id);
+    });
   }
 }
 function loadProfileInfo() {

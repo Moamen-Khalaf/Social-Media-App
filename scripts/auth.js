@@ -80,7 +80,29 @@ export default class UserActions {
   async createPost() {}
   async removePost() {}
   async editPost() {}
-  async createComment() {}
+  async createComment(postId, body) {
+    const url = this.#URLs.getComment(postId);
+    try {
+      if (!this.#user.isAuthorized()) {
+        throw "UnAuthorized";
+      }
+      const data = await this.#fetchURL(url, {
+        method: "POST",
+        redirect: "follow",
+        body: JSON.stringify({ body: body }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.#user.token}`,
+        },
+      });
+      console.log(data.data);
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
   async loginFromLocal(userData) {
     const parsedData = JSON.parse(userData);
     this.#user.setUser(parsedData, parsedData.token, parsedData.password);
@@ -140,7 +162,19 @@ export default class UserActions {
       console.log(error);
     }
   }
-  async getPostComments(id) {}
+  async getPostComments(postId) {
+    const url = this.#URLs.getPost(postId);
+    try {
+      const data = await this.#fetchURL(url, {
+        method: "GET",
+        redirect: "follow",
+        Accept: "application/json",
+      });
+      return data.data.comments;
+    } catch (error) {
+      return [];
+    }
+  }
   async getUserProfile(id) {}
   getUserInfo() {
     const { name, username, id, profile_image } = this.#user;
