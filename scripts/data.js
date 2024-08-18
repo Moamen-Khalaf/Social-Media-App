@@ -136,7 +136,8 @@ async function login() {
   pass.classList.remove("incorrect-input");
   const ok = await user.login(usn.value, pass.value);
   if (ok) {
-    await loadContent();
+    await loadPosts();
+    homeBtn.click();
   } else {
     usn.classList.add("incorrect-input");
     pass.classList.add("incorrect-input");
