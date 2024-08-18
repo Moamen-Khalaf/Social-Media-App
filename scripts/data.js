@@ -14,28 +14,35 @@ async function addComment(postId) {
   const commentCount = document.querySelector(
     `[data-id="${postId}"] .comment-count`
   );
-  const body = document
-    .querySelector(`.add-input[data-id="${postId}"]`)
-    .value.trim();
+  const input = document.querySelector(`.add-input[data-id="${postId}"]`);
+  const body = input.value.trim();
+  input.value = "";
   const comment = await user.createComment(postId, body);
-  console.log(comment);
   if (comment) {
     createCommentItem(comment, commentsSection);
     commentCount.innerText = +commentCount.innerText + 1;
   }
 }
 async function loadComments(postId) {
+  const commentsSection = document.querySelector(
+    `.comments[data-id="${postId}"]`
+  );
+  const commentCount = document.querySelector(
+    `[data-id="${postId}"] .comment-count`
+  );
+  commentsSection.innerHTML = "";
   const comments = await user.getPostComments(postId);
+  commentCount.innerText = comments.length;
   for (const comment of comments) {
-    const commentsSection = document.querySelector(
-      `.comments[data-id="${postId}"]`
-    );
     createCommentItem(comment, commentsSection);
   }
 }
 
 async function loadUserPosts() {
   const posts = await user.getUserPosts();
+  if (!posts) {
+    return;
+  }
   for (const post of posts) {
     createPost(post, profilePage);
 
@@ -81,8 +88,7 @@ async function loadProfile() {
   profileBtn.click();
 }
 async function loadContent() {
-  await loadProfile();
-  await loadPosts();
+  await Promise.all([loadProfile(), loadPosts()]);
 }
 async function login() {
   const inputs = document.querySelectorAll("#login input");

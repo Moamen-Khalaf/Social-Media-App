@@ -77,8 +77,48 @@ export default class UserActions {
       throw error;
     }
   }
-  async createPost() {}
+
+  async createPost(imageFile, title, body) {
+    const url = this.#URLs.posts;
+    try {
+      if (!this.#user.isAuthorized()) {
+        throw "UnAuthorized";
+      }
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("body", body);
+      formData.append("image", imageFile);
+      const data = await this.#fetchURL(url, {
+        method: "POST",
+        redirect: "follow",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${this.#user.token}`,
+        },
+      });
+      console.log(data.data);
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+  async register(username, password, image, name, email) {}
   async editPost() {}
+  async getLastPage() {
+    const url = this.#URLs.getPosts(1, 1);
+    try {
+      const data = await this.#fetchURL(url, {
+        method: "GET",
+        redirect: "follow",
+        Accept: "application/json",
+      });
+      this.#currentPage = data.meta.last_page;
+    } catch (error) {
+      return 1;
+    }
+  }
   async removePost(postId) {
     const url = this.#URLs.getPost(postId);
     try {
@@ -147,15 +187,15 @@ export default class UserActions {
     try {
       const data = await this.#fetchURL(url, requestOptions);
       this.#user.setUser(data.user, data.token, password);
+      await this.getLastPage();
       return true;
     } catch (error) {
       console.log(error);
       return false;
     }
   }
-  async register(username, password, image, name, email) {}
   async getPosts(limit) {
-    const url = this.#URLs.getPosts(limit, this.#currentPage++);
+    const url = this.#URLs.getPosts(limit, this.#currentPage--);
     try {
       const data = await this.#fetchURL(url, {
         method: "GET",
@@ -175,9 +215,10 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data;
+      return data.data.reverse();
     } catch (error) {
       console.log(error);
+      return null;
     }
   }
   async getPostComments(postId) {
@@ -188,12 +229,11 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data.comments;
+      return data.data.comments.reverse();
     } catch (error) {
       return [];
     }
   }
-  async getUserProfile(id) {}
   getUserInfo() {
     const { name, username, id, profile_image } = this.#user;
     return { name, username, id, profile_image };

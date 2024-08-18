@@ -45,14 +45,11 @@ export function createCommentItem(
 }
 
 function setPostActions(post, id) {
-  const addCommentInput = post.querySelector(`.add-input`);
   const settingMenu = post.querySelector(".post-setting-menu");
   const descSecion = post.querySelector(".desc");
   const postImage = post.querySelector(".post-image img");
   const commentSection = post.querySelector(".comments");
   const commentBtn = post.querySelector(".comment-btn");
-  const addCommentBtn = post.querySelector(".add-comment-btn");
-  const commentCount = post.querySelector(".comment-count");
   const postSetting = post.querySelector(".post-setting-btn");
   postImage.addEventListener("click", () => {
     postImage.classList.toggle("show");
