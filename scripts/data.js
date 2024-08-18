@@ -44,7 +44,6 @@ function addCompletePosts(posts, dest) {
 }
 async function loadPosts() {
   const posts = await user.getPosts(10);
-  console.log(posts);
   if (posts) {
     addCompletePosts(posts, homePosts);
   }
