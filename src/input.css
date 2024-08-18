@@ -57,10 +57,16 @@
           @apply sm-image;
         }
         h3 {
-          @apply font-bold;
+          @apply font-bold text-[1.5rem];
         }
-        h4 {
-          @apply text-customGray-dark;
+        .post-info {
+          @apply flex gap-3;
+          h4 {
+            @apply text-neutral-500 dark:text-neutral-300 text-[0.9rem];
+          }
+          h4:first-of-type {
+            @apply hover:text-accent cursor-pointer;
+          }
         }
       }
       .post-setting-menu {

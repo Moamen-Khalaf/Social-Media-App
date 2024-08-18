@@ -1,14 +1,18 @@
 import UserActions from "./auth.js";
-import { profileBtn, profilePage, signBtn } from "./actions.js";
+import { profileBtn, profilePage, signBtn, signPage } from "./actions.js";
 import { createCommentItem, createPost } from "./layout.js";
 const user = new UserActions();
 // yarob11123
 // 123456
 const loginBtn = document.getElementById("sign-login-btn");
+
 async function loadPosts() {}
 async function addComment(postId) {
   const commentsSection = document.querySelector(
     `.comments[data-id="${postId}"]`
+  );
+  const commentCount = document.querySelector(
+    `[data-id="${postId}"] .comment-count`
   );
   const body = document
     .querySelector(`.add-input[data-id="${postId}"]`)
@@ -17,6 +21,7 @@ async function addComment(postId) {
   console.log(comment);
   if (comment) {
     createCommentItem(comment, commentsSection);
+    commentCount.innerText = +commentCount.innerText + 1;
   }
 }
 async function loadComments(postId) {
@@ -46,16 +51,29 @@ async function loadUserPosts() {
     addCommentButton.addEventListener("click", async () => {
       addComment(post.id);
     });
+    document
+      .querySelector(`.removePost[data-id="${post.id}"]`)
+      .addEventListener("click", () => {
+        if (user.removePost(post.id)) {
+          document.querySelector(`.post[data-id="${post.id}"]`).remove();
+        }
+      });
   }
 }
 function loadProfileInfo() {
   const userImage = document.querySelector(".user-image img");
   const userName = document.querySelector("#usn");
   const nameEle = document.querySelector("#name");
+  const logoutBtn = document.getElementById("logout");
   const { name, username, id, profile_image } = user.getUserInfo();
   userImage.src = profile_image;
   userName.innerText = username;
   nameEle.innerText = name;
+  logoutBtn.addEventListener("click", () => {
+    user.logout(true);
+    window.location.reload();
+    signPage.click();
+  });
 }
 async function loadProfile() {
   loadProfileInfo();

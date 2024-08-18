@@ -33,12 +33,8 @@ export function createCommentItem(
                   <img src=${profile_image}  data-user-id=${userId} />
                   <div>
                      <h3>${name}</h3>
-                     <h4>${username}</h4>
+                     <h4>@${username}</h4>
                   </div>
-                </div>
-                <div>
-                  <span>0</span>
-                  <button class="fa-regular fa-heart"></button>
                 </div>
               </div>
               <div class="desc">
@@ -69,9 +65,6 @@ function setPostActions(post, id) {
   });
   postSetting.addEventListener("click", () => {
     settingMenu.classList.toggle("show");
-  });
-  post.querySelector(".removePost").addEventListener("click", () => {
-    document.querySelector(`.post[data-id="${id}"]`).remove();
   });
 }
 
@@ -107,7 +100,10 @@ export function createPost(
             <img src=${profile_image}  class="sm-image"  data-user-id=${user_id} />
             <div>
               <h3>${name}</h3>
-              <h4>${username}</h4>
+              <div class="post-info">
+                <h4>@${username}</h4>
+                <h4>${created_at}</h4>
+              </div>
             </div>
           </div>
           <div class="relative">

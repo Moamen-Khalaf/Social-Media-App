@@ -78,8 +78,27 @@ export default class UserActions {
     }
   }
   async createPost() {}
-  async removePost() {}
   async editPost() {}
+  async removePost(postId) {
+    const url = this.#URLs.getPost(postId);
+    try {
+      if (!this.#user.isAuthorized()) {
+        throw "UnAuthorized";
+      }
+      const data = await this.#fetchURL(url, {
+        method: "DELETE",
+        redirect: "follow",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${this.#user.token}`,
+        },
+      });
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
   async createComment(postId, body) {
     const url = this.#URLs.getComment(postId);
     try {
@@ -96,7 +115,6 @@ export default class UserActions {
           Authorization: `Bearer ${this.#user.token}`,
         },
       });
-      console.log(data.data);
       return data.data;
     } catch (error) {
       console.log(error);

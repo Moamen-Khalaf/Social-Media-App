@@ -1185,10 +1185,35 @@ video {
            object-position: center;
       }
       h3 {
+        font-size: 1.5rem;
+      }
+      h3 {
         font-weight: 700;
       }
-      h4 {
-        color: rgb(var(--dark));
+      .post-info {
+        display: flex;
+      }
+      .post-info {
+        gap: 0.75rem;
+      }
+      .post-info {
+        h4 {
+          font-size: 0.9rem;
+        }
+        h4 {
+          --tw-text-opacity: 1;
+          color: rgb(115 115 115 / var(--tw-text-opacity));
+        }
+        h4:is(.dark *) {
+          --tw-text-opacity: 1;
+          color: rgb(212 212 212 / var(--tw-text-opacity));
+        }
+        h4:first-of-type {
+          cursor: pointer;
+        }
+        h4:first-of-type:hover {
+          color: rgb(var(--accent));
+        }
       }
     }
     .post-setting-menu {
