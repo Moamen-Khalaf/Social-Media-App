@@ -150,7 +150,7 @@ export function createPost(
 
   setPostActions(post, id);
   if (dest) {
-    dest.appendChild(post);
+    dest.prepend(post);
   }
   return post;
 }

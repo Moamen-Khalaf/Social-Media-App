@@ -37,56 +37,19 @@ imageFileLoader.addEventListener("change", () => {
   }
 });
 
-addPostbtn.addEventListener("click", () => {
-  const addPostInput = document.querySelector("#add-post textarea");
-  const titleInput = document.querySelector("#add-post input");
-  const body = escapeHtml(addPostInput.value.trim());
-  const title = escapeHtml(titleInput.value.trim());
-  if (!body && !title) {
-    return;
-  }
-  const image = preview.getAttribute("src") || "#";
-  let post = {
-    name: "moam",
-    userName: "test",
-    id: "123",
-    userImge: "../assets/design.png",
-    userId: "34",
-    profile_image: "../assets/design.png",
-    body: body,
-    title: title,
-    image: image,
-    reactionCount: "0",
-    commentCount: "0",
-    comments: {},
-  };
-  clearImages.click();
-  addPostInput.value = "";
-  titleInput.value = "";
-  document.getElementById("add-post").after(createPost(post));
-});
-
-function removeSelectedPages() {
+export function removeSelectedPages(id) {
   profileBtn.classList.remove("icon-active");
   homeBtn.classList.remove("icon-active");
   signBtn.classList.remove("icon-active");
   homePage.style.display = "none";
   profilePage.style.display = "none";
   signPage.style.display = "none";
+  localStorage.setItem("lastPage", id);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-homeBtn.addEventListener("click", () => {
-  removeSelectedPages();
-  homeBtn.classList.add("icon-active");
-  homePage.style.display = "block";
-});
-profileBtn.addEventListener("click", () => {
-  removeSelectedPages();
-  profileBtn.classList.add("icon-active");
-  profilePage.style.display = "block";
-});
+
 signBtn.addEventListener("click", () => {
-  removeSelectedPages();
+  removeSelectedPages(signBtn.id);
   signBtn.classList.add("icon-active");
   signPage.style.display = "block";
 });
@@ -112,6 +75,7 @@ toggleModeBtn.addEventListener("click", () => {
 (() => {
   const userData = localStorage.getItem("userData");
   const prefMode = localStorage.getItem("prefMode");
+
   if (!userData) {
     signBtn.click();
   }

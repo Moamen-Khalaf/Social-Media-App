@@ -87,7 +87,9 @@ export default class UserActions {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("body", body);
-      formData.append("image", imageFile);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
       const data = await this.#fetchURL(url, {
         method: "POST",
         redirect: "follow",
@@ -97,7 +99,6 @@ export default class UserActions {
           Authorization: `Bearer ${this.#user.token}`,
         },
       });
-      console.log(data.data);
       return data.data;
     } catch (error) {
       console.log(error);
@@ -106,19 +107,6 @@ export default class UserActions {
   }
   async register(username, password, image, name, email) {}
   async editPost() {}
-  async getLastPage() {
-    const url = this.#URLs.getPosts(1, 1);
-    try {
-      const data = await this.#fetchURL(url, {
-        method: "GET",
-        redirect: "follow",
-        Accept: "application/json",
-      });
-      this.#currentPage = data.meta.last_page;
-    } catch (error) {
-      return 1;
-    }
-  }
   async removePost(postId) {
     const url = this.#URLs.getPost(postId);
     try {
@@ -187,7 +175,6 @@ export default class UserActions {
     try {
       const data = await this.#fetchURL(url, requestOptions);
       this.#user.setUser(data.user, data.token, password);
-      await this.getLastPage();
       return true;
     } catch (error) {
       console.log(error);
@@ -195,16 +182,17 @@ export default class UserActions {
     }
   }
   async getPosts(limit) {
-    const url = this.#URLs.getPosts(limit, this.#currentPage--);
+    const url = this.#URLs.getPosts(limit, this.#currentPage++);
     try {
       const data = await this.#fetchURL(url, {
         method: "GET",
         redirect: "follow",
         Accept: "application/json",
       });
-      // console.log(data.data);
+      return data.data;
     } catch (error) {
       console.log(error);
+      return null;
     }
   }
   async getUserPosts() {
@@ -215,7 +203,7 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data.reverse();
+      return data.data;
     } catch (error) {
       console.log(error);
       return null;
@@ -229,7 +217,7 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data.comments.reverse();
+      return data.data.comments;
     } catch (error) {
       return [];
     }
