@@ -144,7 +144,7 @@
         ></button>
       </div>
     </main>
-    <main id="sign-page">
+    <main id="sign-page" class="hidden">
       <div
         class="container mt-[100px] bg-secondary rounded-md overflow-hidden shadow-lg py-8 px-5 flex flex-col gap-4 max-w-[500px] hidden"
         id="login"
@@ -159,17 +159,10 @@
           class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           placeholder="Password"
         />
-        <div class="flex gap-2 items-center">
-          <input type="checkbox" id="polices" class="peer" />
-          <label
-            for="polices"
-            class="select-none font-semibold text-customGray-dark peer-checked:text-customGray"
-            >Agree to all polices</label
-          >
-        </div>
         <button
           type="button"
           class="border-2 py-2 rounded-md bg-accent text-white font-semibold"
+          id="sign-login-btn"
         >
           Login
         </button>
@@ -218,14 +211,6 @@
             class="w-full p-3 border-2 border-solid rounded-md focus:outline-none bg-secondary"
           />
         </div>
-        <div class="flex gap-2 items-center">
-          <input type="checkbox" id="polices-reg" class="peer" />
-          <label
-            for="polices-reg"
-            class="select-none font-semibold text-customGray-dark peer-checked:text-customGray"
-            >Agree to all polices</label
-          >
-        </div>
         <button
           type="button"
           class="border-2 py-2 rounded-md bg-accent text-white font-semibold"
@@ -246,14 +231,13 @@
     </main>
     <!-- Footer -->
     <footer class="bg-accent absolute left-0 bottom-[-100px] w-full">
-      <div
-        class="container text-center py-5 font-bold text-secondary text-customGray"
-      >
+      <div class="container text-center py-5 font-bold text-neutral-50">
         @2024 Copyrights
       </div>
     </footer>
-    <script src="scripts/index.js"></script>
-    <script src="scripts/data.js" type="module"></script>
+    <script src="scripts/layout.js" type="module" defer></script>
+    <script src="scripts/data.js" type="module" async></script>
+    <script src="scripts/actions.js" type="module"></script>
     <script src="scripts/auth.js" type="module"></script>
   </body>
 </html>

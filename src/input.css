@@ -5,7 +5,7 @@
 *,
 *::before,
 *::after {
-  @apply box-border;
+  @apply box-border outline-none focus:outline-none;
   /* outline: 1px solid red; */
 }
 :root {
@@ -43,7 +43,7 @@
     #userSearchedItems {
       @apply absolute left-0 w-full top-full h-fit bg-secondary scale-0 peer-focus:scale-100;
       .searched-item {
-        @apply py-2 px-1 hover:bg-customGray-dark hover:text-secondary font-light;
+        @apply py-2 px-1 hover:bg-customGray-light font-light;
       }
     }
   }
@@ -81,10 +81,10 @@
       @apply font-normal px-4 py-3 truncate text-customGray;
     }
     .desc.show {
-      @apply overflow-visible whitespace-normal text-wrap;
+      @apply overflow-visible whitespace-normal text-pretty break-words hyphens-auto;
     }
     .post-image img {
-      @apply w-full object-cover object-center max-h-[300px];
+      @apply w-full object-cover object-top max-h-[300px];
     }
     .post-image img.show {
       @apply max-h-max;
@@ -129,9 +129,9 @@
       }
     }
   }
-  .incorrect-input {
-    @apply border border-solid border-customRed;
-  }
+}
+.incorrect-input {
+  @apply border border-solid border-customRed;
 }
 #file-preview {
   @apply max-w-full;
