@@ -105,7 +105,32 @@ export default class UserActions {
       return null;
     }
   }
-  async register(username, password, image, name, email) {}
+  async register(username, password, image, name, email) {
+    const url = this.#URLs.register;
+    try {
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+      formData.append("name", name);
+      formData.append("email", email);
+      if (image) {
+        formData.append("image", image);
+      }
+      const data = await this.#fetchURL(url, {
+        method: "POST",
+        redirect: "follow",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      this.#user.setUser(data.user, data.token, password);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
   async editPost() {}
   async removePost(postId) {
     const url = this.#URLs.getPost(postId);

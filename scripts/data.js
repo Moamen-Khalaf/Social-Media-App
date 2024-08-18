@@ -14,9 +14,38 @@ const user = new UserActions();
 // yarob11123
 // 123456
 const loginBtn = document.getElementById("sign-login-btn");
+const registBtn = document.getElementById("register-sign");
 const createPostBtn = document.getElementById("add-post-btn");
 const homePosts = document.getElementById("home-posts");
 const profilePosts = document.getElementById("profile-posts");
+registBtn.addEventListener("click", async () => {
+  const inputs = document.querySelectorAll("#register input");
+  const [username, password, name, email, image] = inputs;
+  let rem = (...val) => {
+    for (const element of val) {
+      element.classList.remove("incorrect-input");
+    }
+  };
+  rem(username, password, name, email, image);
+  const ok = await user.register(
+    username.value,
+    password.value,
+    image.files[0],
+    name.value,
+    email.value
+  );
+  if (ok) {
+    await loadPosts();
+    homeBtn.click();
+  } else {
+    let add = (...val) => {
+      for (const element of val) {
+        element.classList.add("incorrect-input");
+      }
+    };
+    add(username, password, name, email, image);
+  }
+});
 function addCompletePosts(posts, dest) {
   for (const post of posts) {
     createPost(post, dest);
@@ -43,6 +72,8 @@ function addCompletePosts(posts, dest) {
   }
 }
 async function loadPosts() {
+  const { profile_image } = user.getUserInfo();
+  document.getElementById("add-post-user-image").src = profile_image;
   const posts = await user.getPosts(10);
   if (posts) {
     addCompletePosts(posts, homePosts);
@@ -58,7 +89,6 @@ async function createPostItem() {
   }
   const file = document.getElementById("imgUplaod").files[0];
   const post = await user.createPost(file, title, body);
-  console.log(post);
   if (post) {
     createPost(post, homePosts);
     document.getElementById("clearImages").click();
