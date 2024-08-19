@@ -50,6 +50,9 @@ class User {
     this.name = name;
     this.email = email;
     this.id = id;
+    if (Object.keys(profile_image).length === 0) {
+      profile_image = "../assets/user.jpg";
+    }
     this.profile_image = profile_image;
     this.comments_count = comments_count;
     this.posts_count = posts_count;

@@ -1,7 +1,5 @@
 "use strict";
-import { escapeHtml, createPost } from "./layout.js";
 
-const addPostbtn = document.getElementById("add-post-btn");
 const imageFileLoader = document.getElementById("imgUplaod");
 const clearImages = document.getElementById("clearImages");
 const preview = document.getElementById("file-preview");

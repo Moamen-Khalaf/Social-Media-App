@@ -161,3 +161,6 @@ img[src="#"] {
     scale: 1;
   }
 }
+#add-post-warning.show {
+  @apply scale-y-100;
+}

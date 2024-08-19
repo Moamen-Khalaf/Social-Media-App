@@ -88,7 +88,12 @@ export function createPost(
   },
   dest
 ) {
-  image ?? "";
+  if (Object.keys(profile_image).length === 0) {
+    profile_image = "../assets/user.jpg";
+  }
+  if (Object.keys(image).length === 0) {
+    image = "#";
+  }
   const post = document.createRange()
     .createContextualFragment(`<div class="post" data-id=${id}>
         <!-- header -->
@@ -135,8 +140,8 @@ export function createPost(
             
           </div>
           <!-- add comment -->
-          <div class="add-comment">
-            <img src=${profile_image} />
+          <div class="add-comment" data-id=${id}>
+            <img/>
             <input
               type="text"
               placeholder="Write something..."

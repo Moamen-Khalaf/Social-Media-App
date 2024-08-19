@@ -49,7 +49,9 @@ registBtn.addEventListener("click", async () => {
 function addCompletePosts(posts, dest) {
   for (const post of posts) {
     createPost(post, dest);
-
+    const { profile_image } = user.getUserInfo();
+    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+      profile_image;
     const showComments = document.querySelector(
       `.comment-btn[data-id="${post.id}"]`
     );
@@ -84,28 +86,46 @@ async function createPostItem() {
   const postBody = document.getElementById("postBody");
   const body = escapeHtml(postBody.value.trim());
   const title = escapeHtml(postTitle.value.trim());
-  if (!body && !title) {
+  if (!body || !title) {
+    const warnMsg = document.getElementById("add-post-warning");
+    warnMsg.classList.add("show");
+    await new Promise((r) => setTimeout(r, 2000));
+    warnMsg.classList.remove("show");
     return;
   }
   const file = document.getElementById("imgUplaod").files[0];
   const post = await user.createPost(file, title, body);
+  postTitle.value = "";
+  postBody.value = "";
+  document.getElementById("clearImages").click();
   if (post) {
     createPost(post, homePosts);
-    document.getElementById("clearImages").click();
-    postTitle.value = "";
-    postBody.value = "";
+    const { profile_image } = user.getUserInfo();
+    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+      profile_image;
+    const addCommentButton = document.querySelector(
+      `.add-comment-btn[data-id="${post.id}"]`
+    );
+    addCommentButton.addEventListener("click", async () => {
+      addComment(post.id);
+    });
   }
 }
 createPostBtn.addEventListener("click", createPostItem);
 async function addComment(postId) {
+  const input = document.querySelector(`.add-input[data-id="${postId}"]`);
+  input.parentElement.classList.remove("incorrect-input");
   const commentsSection = document.querySelector(
     `.comments[data-id="${postId}"]`
   );
   const commentCount = document.querySelector(
     `[data-id="${postId}"] .comment-count`
   );
-  const input = document.querySelector(`.add-input[data-id="${postId}"]`);
   const body = input.value.trim();
+  if (!body) {
+    input.parentElement.classList.toggle("incorrect-input");
+    return;
+  }
   input.value = "";
   const comment = await user.createComment(postId, body);
   if (comment) {
@@ -175,7 +195,8 @@ async function login() {
 loginBtn.addEventListener("click", login);
 async function loadUserLocally(userData) {
   if (await user.loginFromLocal(userData)) {
-    await loadContent();
+    loadPosts();
+    homeBtn.click();
   } else {
     signBtn.click();
   }
