@@ -86,7 +86,8 @@ export function createPost(
       username,
     },
   },
-  dest
+  dest,
+  upToDown
 ) {
   if (Object.keys(profile_image).length === 0) {
     profile_image = "../assets/user.jpg";
@@ -155,7 +156,7 @@ export function createPost(
 
   setPostActions(post, id);
   if (dest) {
-    dest.prepend(post);
+    upToDown ? dest.appendChild(post) : dest.prepend(post);
   }
   return post;
 }

@@ -46,9 +46,9 @@ registBtn.addEventListener("click", async () => {
     add(username, password, name, email, image);
   }
 });
-function addCompletePosts(posts, dest) {
+async function addCompletePosts(posts, dest, upToDown) {
   for (const post of posts) {
-    createPost(post, dest);
+    createPost(post, dest, upToDown);
     const { profile_image } = user.getUserInfo();
     document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
       profile_image;
@@ -71,14 +71,32 @@ function addCompletePosts(posts, dest) {
           document.querySelector(`.post[data-id="${post.id}"]`).remove();
         }
       });
+    await new Promise((r) => setTimeout(r, 100));
   }
 }
+const observer = new IntersectionObserver(
+  (entries) => {
+    const lastPost = entries[0];
+    if (!lastPost.isIntersecting) {
+      return;
+    }
+    observer.unobserve(lastPost.target);
+    loadPosts();
+  },
+  {
+    threshold: 0.1, // Adjust threshold to ensure that more posts load only when the last post is barely visible
+  }
+);
 async function loadPosts() {
   const { profile_image } = user.getUserInfo();
   document.getElementById("add-post-user-image").src = profile_image;
   const posts = await user.getPosts(10);
   if (posts) {
-    addCompletePosts(posts, homePosts);
+    addCompletePosts(posts, homePosts, true).then(() => {
+      if (homePosts.children.length >= 10) {
+        observer.observe(homePosts.querySelector(".post:last-child"));
+      }
+    });
   }
 }
 async function createPostItem() {
@@ -175,9 +193,6 @@ async function loadProfile() {
   loadProfileInfo();
   await loadUserPosts();
 }
-async function loadContent() {
-  await Promise.all([loadProfile(), loadPosts()]);
-}
 async function login() {
   const inputs = document.querySelectorAll("#login input");
   const [usn, pass] = inputs;
@@ -194,9 +209,14 @@ async function login() {
 }
 loginBtn.addEventListener("click", login);
 async function loadUserLocally(userData) {
-  if (await user.loginFromLocal(userData)) {
-    loadPosts();
-    homeBtn.click();
+  if (userData && (await user.loginFromLocal(userData))) {
+    await loadPosts();
+    const lastPage = localStorage.getItem("lastPage");
+    if (lastPage) {
+      document.getElementById(`${lastPage}`).click();
+    } else {
+      homeBtn.click();
+    }
   } else {
     signBtn.click();
   }
@@ -210,6 +230,7 @@ profileBtn.addEventListener("click", async () => {
   profilePage.style.display = "block";
 });
 homeBtn.addEventListener("click", async () => {
+  console.log("done");
   homePosts.innerHTML = "";
   profilePosts.innerHTML = "";
   await loadPosts();
@@ -219,11 +240,5 @@ homeBtn.addEventListener("click", async () => {
 });
 (async () => {
   const userData = localStorage.getItem("userData");
-  const lastPage = localStorage.getItem("lastPage");
-  if (userData) {
-    loadUserLocally(userData);
-  }
-  if (lastPage) {
-    document.getElementById(`${lastPage}`).click();
-  }
+  loadUserLocally(userData);
 })();
