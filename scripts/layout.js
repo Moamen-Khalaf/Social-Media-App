@@ -86,7 +86,8 @@ export function createPost(
       username,
     },
   },
-  dest
+  dest,
+  upToDown
 ) {
   if (Object.keys(profile_image).length === 0) {
     profile_image = "../assets/user.jpg";
@@ -110,9 +111,9 @@ export function createPost(
           </div>
           <div class="relative">
             <button class="post-setting-btn fa-solid fa-ellipsis-vertical"></button>
-            <div class="post-setting-menu">
-                <button class="removePost" data-id=${id}>Remove Post</button>
-                <button class="editPost" data-id=${id}>Edit Post</button>
+            <div class="post-setting-menu" data-id=${id} >
+                <button class="removePost" data-id=${id} >Remove Post</button>
+                <button class="editPost" data-id=${id} >Edit Post</button>
             </div>
           </div>
         </div>
@@ -155,7 +156,7 @@ export function createPost(
 
   setPostActions(post, id);
   if (dest) {
-    dest.prepend(post);
+    upToDown ? dest.appendChild(post) : dest.prepend(post);
   }
   return post;
 }

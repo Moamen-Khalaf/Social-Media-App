@@ -69,14 +69,8 @@ toggleModeBtn.addEventListener("click", () => {
     localStorage.setItem("prefMode", "light");
   }
 });
-
 (() => {
-  const userData = localStorage.getItem("userData");
   const prefMode = localStorage.getItem("prefMode");
-
-  if (!userData) {
-    signBtn.click();
-  }
   if (prefMode) {
     prefMode === "light" || toggleModeBtn.click();
   }
