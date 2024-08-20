@@ -113,6 +113,59 @@ registBtn.addEventListener("click", async () => {
     rem(username, password, name, email, image);
   }
 });
+function setPostEvents(post) {
+  const userInfo = user.getUserInfo();
+  let profile_image, id;
+  if (userInfo.status) {
+    ({ profile_image, id } = userInfo.data);
+    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+      profile_image ?? "assets/user.jpg";
+  } else {
+    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+      "assets/user.jpg";
+  }
+  const settingMenu = document.querySelector(
+    `.post-setting-menu[data-id="${post.id}"]`
+  );
+  const {
+    author: { id: userId },
+  } = post;
+  if (id !== userId) {
+    settingMenu.parentElement.style.display = "none";
+  }
+  const showComments = document.querySelector(
+    `.comment-btn[data-id="${post.id}"]`
+  );
+  showComments.addEventListener("click", () => {
+    loadComments(post.id);
+  });
+  const addCommentButton = document.querySelector(
+    `.add-comment-btn[data-id="${post.id}"]`
+  );
+  addCommentButton.addEventListener("click", async () => {
+    addComment(post.id);
+  });
+  document
+    .querySelector(`.editPost[data-id="${post.id}"]`)
+    .addEventListener("click", () => {
+      editPost(post.id);
+    });
+  document.querySelector(`.removePost[data-id="${post.id}"]`).onclick = () => {
+    if (user.removePost(post.id)) {
+      document.querySelector(`.post[data-id="${post.id}"]`).remove();
+    }
+  };
+  const userImage = document.querySelector(
+    `.post[data-id="${post.id}"] .post-user img`
+  );
+  userImage.addEventListener("click", async () => {
+    const freindId = userImage.getAttribute("data-user-id");
+    const response = await user.getFriendData(freindId);
+    if (response.status) {
+      loadUser(freindId);
+    }
+  });
+}
 function loadUser(userId) {
   profilePosts.innerHTML = "";
   homePosts.innerHTML = "";
@@ -129,58 +182,7 @@ function loadUser(userId) {
 async function addCompletePosts(posts, dest, upToDown) {
   for (const post of posts) {
     createPost(post, dest, upToDown);
-    const userInfo = user.getUserInfo();
-    let profile_image, id;
-    if (userInfo.status) {
-      ({ profile_image, id } = userInfo.data);
-      document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
-        profile_image ?? "assets/user.jpg";
-    } else {
-      document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
-        "assets/user.jpg";
-    }
-    const settingMenu = document.querySelector(
-      `.post-setting-menu[data-id="${post.id}"]`
-    );
-    const {
-      author: { id: userId },
-    } = post;
-    if (id !== userId) {
-      settingMenu.parentElement.style.display = "none";
-    }
-    const showComments = document.querySelector(
-      `.comment-btn[data-id="${post.id}"]`
-    );
-    showComments.addEventListener("click", () => {
-      loadComments(post.id);
-    });
-    const addCommentButton = document.querySelector(
-      `.add-comment-btn[data-id="${post.id}"]`
-    );
-    addCommentButton.addEventListener("click", async () => {
-      addComment(post.id);
-    });
-    document
-      .querySelector(`.editPost[data-id="${post.id}"]`)
-      .addEventListener("click", () => {
-        editPost(post.id);
-      });
-    document.querySelector(`.removePost[data-id="${post.id}"]`).onclick =
-      () => {
-        if (user.removePost(post.id)) {
-          document.querySelector(`.post[data-id="${post.id}"]`).remove();
-        }
-      };
-    const userImage = document.querySelector(
-      `.post[data-id="${post.id}"] .post-user img`
-    );
-    userImage.addEventListener("click", async () => {
-      const freindId = userImage.getAttribute("data-user-id");
-      const response = await user.getFriendData(freindId);
-      if (response.status) {
-        loadUser(freindId);
-      }
-    });
+    setPostEvents(post);
     await new Promise((r) => setTimeout(r, 100));
   }
 }
@@ -219,6 +221,7 @@ async function createPostItem() {
   document.getElementById("clearImages").click();
   if (post.status) {
     createPost(post.data, homePosts);
+    setPostEvents(post.data);
     const { profile_image } = user.getUserInfo().data;
     document.querySelector(`.add-comment[data-id="${post.data.id}"] img`).src =
       profile_image;
