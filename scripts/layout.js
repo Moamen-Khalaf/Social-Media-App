@@ -112,7 +112,8 @@ export function createPost(
               </div>
             </div>
           </div>
-          <div class="relative">
+          <div class="setting">
+            <button class="save-changes fa-solid fa-check" data-id=${id} ></button>
             <button class="post-setting-btn fa-solid fa-ellipsis-vertical"></button>
             <div class="post-setting-menu" data-id=${id} >
                 <button class="removePost" data-id=${id} >Remove Post</button>
@@ -127,6 +128,10 @@ export function createPost(
         </div>
         <!-- post image -->
         <div class="post-image">
+          <div class="replace-image" >
+            <input type="file" id=${id} accept="image/png, image/jpeg" />
+            <i class="fa-solid fa-upload"></i>
+          </div>
           <img src=${image}  />
         </div>
         <div>

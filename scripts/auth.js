@@ -73,7 +73,11 @@ export default class UserActions {
     try {
       const response = await fetch(url, config);
       if (!response.ok) {
-        throw `Network Error : ${response.status} , ${response.url}`;
+        const msg = await response.json();
+        throw {
+          status: `Network Error : ${response.status} , ${response.url}`,
+          message: msg.message,
+        };
       }
       return await response.json();
     } catch (error) {
@@ -102,10 +106,10 @@ export default class UserActions {
           Authorization: `Bearer ${this.#user.token}`,
         },
       });
-      return data.data;
+      return { data: data.data, status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return null;
+      return { status: false, message: error.message };
     }
   }
   async register(username, password, image, name, email) {
@@ -128,10 +132,10 @@ export default class UserActions {
         },
       });
       this.#user.setUser(data.user, data.token, password);
-      return true;
+      return { status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return false;
+      return { status: false, message: error.message };
     }
   }
   async editPost() {}
@@ -149,10 +153,10 @@ export default class UserActions {
           Authorization: `Bearer ${this.#user.token}`,
         },
       });
-      return true;
+      return { status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return false;
+      return { status: false, message: error.message };
     }
   }
   async createComment(postId, body) {
@@ -171,10 +175,9 @@ export default class UserActions {
           Authorization: `Bearer ${this.#user.token}`,
         },
       });
-      return data.data;
+      return { data: data.data, status: true, message: "OK" };
     } catch (error) {
-      console.log(error);
-      return null;
+      return { status: false, message: error };
     }
   }
   async loginFromLocal(userData) {
@@ -203,10 +206,10 @@ export default class UserActions {
     try {
       const data = await this.#fetchURL(url, requestOptions);
       this.#user.setUser(data.user, data.token, password);
-      return true;
+      return { status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return false;
+      return { status: false, message: error.message };
     }
   }
   async getPosts(limit) {
@@ -217,24 +220,27 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data;
+      return { data: data.data, status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return null;
+      return { status: false, message: error.message };
     }
   }
   async getUserPosts() {
     const url = this.#URLs.getUserPosts(this.#user.id);
     try {
+      if (!this.#user.isAuthorized()) {
+        throw "Unauthorized User";
+      }
       const data = await this.#fetchURL(url, {
         method: "GET",
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data;
+      return { data: data.data, status: true, message: "OK" };
     } catch (error) {
       console.log(error);
-      return null;
+      return { status: false, message: error.message };
     }
   }
   async getPostComments(postId) {
@@ -245,14 +251,26 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
-      return data.data.comments;
+      return { data: data.data.comments, status: true, message: "OK" };
     } catch (error) {
-      return [];
+      console.log(error);
+      return { status: false, message: error.message };
     }
   }
   getUserInfo() {
     const { name, username, id, profile_image } = this.#user;
-    return { name, username, id, profile_image };
+    if (!this.#user.isAuthorized()) {
+      return {
+        status: false,
+        message: "Unauthorized User",
+        data: { name, username, id, profile_image },
+      };
+    }
+    return {
+      status: true,
+      message: "OK",
+      data: null,
+    };
   }
   logout(removeLocalData = true) {
     !removeLocalData || localStorage.clear();

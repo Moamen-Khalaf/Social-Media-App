@@ -5,7 +5,7 @@
 *,
 *::before,
 *::after {
-  @apply box-border outline-none focus:outline-none;
+  @apply box-border focus:outline-none;
   /* outline: 1px solid red; */
 }
 :root {
@@ -89,11 +89,29 @@
     .desc.show {
       @apply overflow-visible whitespace-normal text-pretty break-words hyphens-auto;
     }
-    .post-image img {
-      @apply w-full object-cover object-top max-h-[300px];
+    .setting {
+      @apply relative;
+      > button:first-child {
+        @apply pr-4 text-customGray hover:text-accent hidden;
+      }
     }
-    .post-image img.show {
-      @apply max-h-max;
+    .post-image {
+      @apply relative;
+      input {
+        @apply hidden;
+      }
+      .replace-image {
+        @apply absolute w-full h-full hover:bg-neutral-500 opacity-70 top-0 left-0 flex items-center justify-center cursor-pointer hidden duration-100;
+        i {
+          @apply text-accent text-[2rem];
+        }
+      }
+      img {
+        @apply w-full object-cover object-top max-h-[300px];
+      }
+      img.show {
+        @apply max-h-max;
+      }
     }
     .post-reaction {
       @apply px-4 py-3 text-[1.25rem] *:text-accent flex justify-between items-center;

@@ -34,8 +34,14 @@ registBtn.addEventListener("click", async () => {
     name.value,
     email.value
   );
-  if (ok) {
+  if (ok.status) {
     await loadPosts();
+    let clear = (...val) => {
+      for (const element of val) {
+        element.value = "";
+      }
+    };
+    clear(username, password, name, email, image);
     homeBtn.click();
   } else {
     let add = (...val) => {
@@ -43,15 +49,21 @@ registBtn.addEventListener("click", async () => {
         element.classList.add("incorrect-input");
       }
     };
+    const warn = document.getElementById("register-warning");
+    warn.innerText = ok.message;
+    warn.style.display = "block";
     add(username, password, name, email, image);
+    await new Promise((r) => setTimeout(r, 4000));
+    warn.style.display = "none";
+    rem(username, password, name, email, image);
   }
 });
 async function addCompletePosts(posts, dest, upToDown) {
   for (const post of posts) {
     createPost(post, dest, upToDown);
-    const { profile_image, id } = user.getUserInfo();
+    const { profile_image, id } = user.getUserInfo().data;
     document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
-      profile_image;
+      profile_image ?? "assets/user.jpg";
     const showComments = document.querySelector(
       `.comment-btn[data-id="${post.id}"]`
     );
@@ -73,6 +85,7 @@ async function addCompletePosts(posts, dest, upToDown) {
     addCommentButton.addEventListener("click", async () => {
       addComment(post.id);
     });
+
     document
       .querySelector(`.removePost[data-id="${post.id}"]`)
       .addEventListener("click", () => {
@@ -97,11 +110,9 @@ const observer = new IntersectionObserver(
   }
 );
 async function loadPosts() {
-  const { profile_image } = user.getUserInfo();
-  document.getElementById("add-post-user-image").src = profile_image;
   const posts = await user.getPosts(10);
-  if (posts) {
-    addCompletePosts(posts, homePosts, true).then(() => {
+  if (posts.status) {
+    addCompletePosts(posts.data, homePosts, true).then(() => {
       if (homePosts.children.length >= 10) {
         observer.observe(homePosts.querySelector(".post:last-child"));
       }
@@ -151,13 +162,20 @@ async function addComment(postId) {
   const body = input.value.trim();
   if (!body) {
     input.parentElement.classList.toggle("incorrect-input");
+    await new Promise((r) => setTimeout(r, 4000));
+    input.parentElement.classList.remove("incorrect-input");
     return;
   }
   input.value = "";
   const comment = await user.createComment(postId, body);
-  if (comment) {
-    createCommentItem(comment, commentsSection);
+  if (comment.status) {
+    createCommentItem(comment.data, commentsSection);
     commentCount.innerText = +commentCount.innerText + 1;
+  } else {
+    console.log(comment.message);
+    input.parentElement.classList.toggle("incorrect-input");
+    await new Promise((r) => setTimeout(r, 4000));
+    input.parentElement.classList.remove("incorrect-input");
   }
 }
 async function loadComments(postId) {
@@ -172,15 +190,19 @@ async function loadComments(postId) {
     return;
   }
   const comments = await user.getPostComments(postId);
-  commentCount.innerText = comments.length;
-  for (const comment of comments) {
-    createCommentItem(comment, commentsSection);
+  if (comments.status) {
+    commentCount.innerText = comments.data.length;
+    for (const comment of comments.data) {
+      createCommentItem(comment, commentsSection);
+    }
+  } else {
+    console.log(comments.message);
   }
 }
 async function loadUserPosts() {
   const posts = await user.getUserPosts();
-  if (posts) {
-    addCompletePosts(posts, profilePosts);
+  if (posts.status) {
+    addCompletePosts(posts.data, profilePosts);
   }
 }
 function loadProfileInfo() {
@@ -188,8 +210,14 @@ function loadProfileInfo() {
   const userName = document.querySelector("#usn");
   const nameEle = document.querySelector("#name");
   const logoutBtn = document.getElementById("logout");
-  const { name, username, id, profile_image } = user.getUserInfo();
-  userImage.src = profile_image;
+  const userInfo = user.getUserInfo();
+  if (!userInfo.status) {
+    console.log(userInfo.message);
+    return;
+  }
+  const { name, username, id, profile_image } = userInfo.data;
+  document.getElementById("add-post-user-image").src = profile_image;
+  userImage.src = profile_image ?? "assets/user.jpg";
   userName.innerText = username;
   nameEle.innerText = name;
   logoutBtn.addEventListener("click", () => {
@@ -208,12 +236,19 @@ async function login() {
   usn.classList.remove("incorrect-input");
   pass.classList.remove("incorrect-input");
   const ok = await user.login(usn.value, pass.value);
-  if (ok) {
+  if (ok.status) {
     await loadPosts();
     homeBtn.click();
   } else {
+    const warn = document.getElementById("login-warning");
+    warn.innerText = ok.message;
+    warn.style.display = "block";
     usn.classList.add("incorrect-input");
     pass.classList.add("incorrect-input");
+    await new Promise((r) => setTimeout(r, 4000));
+    warn.style.display = "none";
+    usn.classList.remove("incorrect-input");
+    pass.classList.remove("incorrect-input");
   }
 }
 loginBtn.addEventListener("click", login);
@@ -233,13 +268,14 @@ async function loadUserLocally(userData) {
 profileBtn.addEventListener("click", async () => {
   homePosts.innerHTML = "";
   profilePosts.innerHTML = "";
-  await loadProfile();
-  removeSelectedPages(profileBtn.id);
-  profileBtn.classList.add("icon-active");
-  profilePage.style.display = "block";
+  if (user.getUserInfo().status) {
+    await loadProfile();
+    removeSelectedPages(profileBtn.id);
+    profileBtn.classList.add("icon-active");
+    profilePage.style.display = "block";
+  }
 });
 homeBtn.addEventListener("click", async () => {
-  console.log("done");
   homePosts.innerHTML = "";
   profilePosts.innerHTML = "";
   await loadPosts();
@@ -247,6 +283,7 @@ homeBtn.addEventListener("click", async () => {
   homeBtn.classList.add("icon-active");
   homePage.style.display = "block";
 });
+function editPost(postId) {}
 (async () => {
   const userData = localStorage.getItem("userData");
   loadUserLocally(userData);

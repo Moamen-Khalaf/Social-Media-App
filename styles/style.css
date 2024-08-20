@@ -723,11 +723,6 @@ video {
   flex-grow: 1;
 }
 
-.scale-x-0 {
-  --tw-scale-x: 0;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .scale-y-0 {
   --tw-scale-y: 0;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1339,23 +1334,96 @@ video {
   .desc.show {
     overflow-wrap: break-word;
   }
-  .post-image img {
-    max-height: 300px;
+  .setting {
+    position: relative;
   }
-  .post-image img {
-    width: 100%;
+  .setting {
+    > button:first-child {
+      display: none;
+    }
+    > button:first-child {
+      padding-right: 1rem;
+    }
+    > button:first-child {
+      color: rgb(var(--DEFAULT));
+    }
+    > button:first-child:hover {
+      color: rgb(var(--accent));
+    }
   }
-  .post-image img {
-    -o-object-fit: cover;
-       object-fit: cover;
+  .post-image {
+    position: relative;
   }
-  .post-image img {
-    -o-object-position: top;
-       object-position: top;
-  }
-  .post-image img.show {
-    max-height: -moz-max-content;
-    max-height: max-content;
+  .post-image {
+    input {
+      display: none;
+    }
+    .replace-image {
+      position: absolute;
+    }
+    .replace-image {
+      top: 0px;
+    }
+    .replace-image {
+      left: 0px;
+    }
+    .replace-image {
+      display: flex;
+    }
+    .replace-image {
+      display: none;
+    }
+    .replace-image {
+      height: 100%;
+    }
+    .replace-image {
+      width: 100%;
+    }
+    .replace-image {
+      cursor: pointer;
+    }
+    .replace-image {
+      align-items: center;
+    }
+    .replace-image {
+      justify-content: center;
+    }
+    .replace-image {
+      opacity: 0.7;
+    }
+    .replace-image {
+      transition-duration: 100ms;
+    }
+    .replace-image:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(115 115 115 / var(--tw-bg-opacity));
+    }
+    .replace-image {
+      i {
+        font-size: 2rem;
+      }
+      i {
+        color: rgb(var(--accent));
+      }
+    }
+    img {
+      max-height: 300px;
+    }
+    img {
+      width: 100%;
+    }
+    img {
+      -o-object-fit: cover;
+         object-fit: cover;
+    }
+    img {
+      -o-object-position: top;
+         object-position: top;
+    }
+    img.show {
+      max-height: -moz-max-content;
+      max-height: max-content;
+    }
   }
   .post-reaction {
     display: flex;
@@ -1566,8 +1634,6 @@ video {
 *::before,
 *::after {
   box-sizing: border-box;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
 }
 
 *:focus,
