@@ -108,7 +108,7 @@ export function createPost(
               <h3>${name}</h3>
               <div class="post-info">
                 <h4>@${username}</h4>
-                <h4>${created_at}</h4>
+                <h4 class="time" data-id=${id} >${created_at}</h4>
               </div>
             </div>
           </div>
@@ -128,10 +128,10 @@ export function createPost(
         </div>
         <!-- post image -->
         <div class="post-image">
-          <div class="replace-image" >
-            <input type="file" id=${id} accept="image/png, image/jpeg" />
+          <label class="replace-image" data-id=${id} for=${id}>
+            <input type="file" accept="image/png, image/jpeg" id=${id} />
             <i class="fa-solid fa-upload"></i>
-          </div>
+          </label>
           <img src=${image}  loading="lazy" alt="${title}" />
         </div>
         <div>

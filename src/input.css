@@ -94,6 +94,9 @@
       > button:first-child {
         @apply pr-4 text-customGray hover:text-accent hidden;
       }
+      > button:first-child.show {
+        @apply inline-block;
+      }
     }
     .post-image {
       @apply relative;
@@ -105,6 +108,9 @@
         i {
           @apply text-accent text-[2rem];
         }
+      }
+      .replace-image.show {
+        @apply flex;
       }
       img {
         @apply w-full object-cover object-top max-h-[300px];

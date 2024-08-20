@@ -138,7 +138,34 @@ export default class UserActions {
       return { status: false, message: error.message };
     }
   }
-  async editPost() {}
+  async editPost(imageFile, title, body, postId) {
+    const url = this.#URLs.getPost(postId);
+    try {
+      if (!this.#user.isAuthorized()) {
+        throw { message: "Unauthorized User" };
+      }
+      console.log(imageFile, title, body, postId);
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("body", body);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+      const data = await this.#fetchURL(url, {
+        method: "PUT",
+        redirect: "follow",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${this.#user.token}`,
+        },
+      });
+      return { data: data.data, status: true, message: "OK" };
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: error.message };
+    }
+  }
   async removePost(postId) {
     const url = this.#URLs.getPost(postId);
     try {

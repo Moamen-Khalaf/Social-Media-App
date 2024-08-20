@@ -1350,6 +1350,9 @@ video {
     > button:first-child:hover {
       color: rgb(var(--accent));
     }
+    > button:first-child.show {
+      display: inline-block;
+    }
   }
   .post-image {
     position: relative;
@@ -1405,6 +1408,9 @@ video {
       i {
         color: rgb(var(--accent));
       }
+    }
+    .replace-image.show {
+      display: flex;
     }
     img {
       max-height: 300px;

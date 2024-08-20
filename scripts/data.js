@@ -18,6 +18,63 @@ const registBtn = document.getElementById("register-sign");
 const createPostBtn = document.getElementById("add-post-btn");
 const homePosts = document.getElementById("home-posts");
 const profilePosts = document.getElementById("profile-posts");
+function editPost(postId) {
+  const saveChanges = document.querySelector(
+    `.save-changes[data-id="${postId}"]`
+  );
+  const titleInput = document.querySelector(
+    `.post[data-id="${postId}"] .title`
+  );
+  const settingMenu = document.querySelector(
+    `.post-setting-menu[data-id="${postId}"]`
+  );
+  const descInput = document.querySelector(`.post[data-id="${postId}"] .desc`);
+  const replaceImage = document.querySelector(
+    `.post[data-id="${postId}"] .replace-image`
+  );
+  const imageInput = replaceImage.querySelector("input");
+  imageInput.addEventListener("change", (event) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (event) => {
+      replaceImage.parentElement
+        .querySelector("img")
+        .setAttribute("src", event.target.result);
+    };
+    fileReader.readAsDataURL(imageInput.files[0]);
+  });
+  replaceImage.classList.add("show");
+  settingMenu.classList.remove("show");
+  saveChanges.classList.add("show");
+  titleInput.setAttribute("contenteditable", "true");
+  descInput.setAttribute("contenteditable", "true");
+  saveChanges.onclick = async () => {
+    replaceImage.classList.remove("show");
+    saveChanges.classList.remove("show");
+    titleInput.removeAttribute("contenteditable");
+    descInput.removeAttribute("contenteditable");
+    const response = await user.editPost(
+      imageInput.files[0],
+      titleInput.innerText,
+      descInput.innerText,
+      postId
+    );
+    console.log(response);
+    console.log(
+      imageInput.files[0],
+      titleInput.innerText,
+      descInput.innerText,
+      postId
+    );
+    if (response.status) {
+      const { created_at } = response.data;
+      document.querySelector(`.time[data-id="${postId}"]`).innerText =
+        created_at;
+    } else {
+      console.log(response.status);
+    }
+    saveChanges.removeEventListener("click");
+  };
+}
 registBtn.addEventListener("click", async () => {
   const inputs = document.querySelectorAll("#register input");
   const [username, password, name, email, image] = inputs;
@@ -71,18 +128,18 @@ async function addCompletePosts(posts, dest, upToDown) {
       document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
         "assets/user.jpg";
     }
-    const showComments = document.querySelector(
-      `.comment-btn[data-id="${post.id}"]`
+    const settingMenu = document.querySelector(
+      `.post-setting-menu[data-id="${post.id}"]`
     );
     const {
       author: { id: userId },
     } = post;
-    const settingMenu = document.querySelector(
-      `.post-setting-menu[data-id="${post.id}"]`
-    );
     if (id !== userId) {
       settingMenu.parentElement.style.display = "none";
     }
+    const showComments = document.querySelector(
+      `.comment-btn[data-id="${post.id}"]`
+    );
     showComments.addEventListener("click", () => {
       loadComments(post.id);
     });
@@ -92,14 +149,18 @@ async function addCompletePosts(posts, dest, upToDown) {
     addCommentButton.addEventListener("click", async () => {
       addComment(post.id);
     });
-
     document
-      .querySelector(`.removePost[data-id="${post.id}"]`)
+      .querySelector(`.editPost[data-id="${post.id}"]`)
       .addEventListener("click", () => {
+        console.log(document.querySelector(`.editPost[data-id="${post.id}"]`));
+        editPost(post.id);
+      });
+    document.querySelector(`.removePost[data-id="${post.id}"]`).onclick =
+      () => {
         if (user.removePost(post.id)) {
           document.querySelector(`.post[data-id="${post.id}"]`).remove();
         }
-      });
+      };
     await new Promise((r) => setTimeout(r, 100));
   }
 }
@@ -273,9 +334,9 @@ async function loadUserLocally(userData) {
   }
 }
 profileBtn.addEventListener("click", async () => {
-  homePosts.innerHTML = "";
-  profilePosts.innerHTML = "";
   if (user.getUserInfo().status) {
+    profilePosts.innerHTML = "";
+    homePosts.innerHTML = "";
     await loadProfile();
     removeSelectedPages(profileBtn.id);
     profileBtn.classList.add("icon-active");
@@ -291,7 +352,6 @@ homeBtn.addEventListener("click", async () => {
   homeBtn.classList.add("icon-active");
   homePage.style.display = "block";
 });
-function editPost(postId) {}
 (async () => {
   const userData = localStorage.getItem("userData");
   loadUserLocally(userData);
