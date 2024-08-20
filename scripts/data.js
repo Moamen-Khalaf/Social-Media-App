@@ -124,29 +124,28 @@ async function createPostItem() {
   const postBody = document.getElementById("postBody");
   const body = escapeHtml(postBody.value.trim());
   const title = escapeHtml(postTitle.value.trim());
-  if (!body || !title) {
-    const warnMsg = document.getElementById("add-post-warning");
-    warnMsg.classList.add("show");
-    await new Promise((r) => setTimeout(r, 2000));
-    warnMsg.classList.remove("show");
-    return;
-  }
   const file = document.getElementById("imgUplaod").files[0];
   const post = await user.createPost(file, title, body);
   postTitle.value = "";
   postBody.value = "";
   document.getElementById("clearImages").click();
-  if (post) {
-    createPost(post, homePosts);
-    const { profile_image } = user.getUserInfo();
-    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+  if (post.status) {
+    createPost(post.data, homePosts);
+    const { profile_image } = user.getUserInfo().data;
+    document.querySelector(`.add-comment[data-id="${post.data.id}"] img`).src =
       profile_image;
     const addCommentButton = document.querySelector(
-      `.add-comment-btn[data-id="${post.id}"]`
+      `.add-comment-btn[data-id="${post.data.id}"]`
     );
     addCommentButton.addEventListener("click", async () => {
-      addComment(post.id);
+      addComment(post.data.id);
     });
+  } else {
+    const warnMsg = document.getElementById("add-post-warning");
+    warnMsg.classList.add("show");
+    warnMsg.innerText = post.message;
+    await new Promise((r) => setTimeout(r, 2000));
+    warnMsg.classList.remove("show");
   }
 }
 createPostBtn.addEventListener("click", createPostItem);
@@ -215,6 +214,7 @@ function loadProfileInfo() {
     console.log(userInfo.message);
     return;
   }
+
   const { name, username, id, profile_image } = userInfo.data;
   document.getElementById("add-post-user-image").src = profile_image;
   userImage.src = profile_image ?? "assets/user.jpg";
@@ -253,7 +253,7 @@ async function login() {
 }
 loginBtn.addEventListener("click", login);
 async function loadUserLocally(userData) {
-  if (userData && (await user.loginFromLocal(userData))) {
+  if (userData && (await user.loginFromLocal(userData)).status) {
     await loadPosts();
     const lastPage = localStorage.getItem("lastPage");
     if (lastPage) {
@@ -278,6 +278,7 @@ profileBtn.addEventListener("click", async () => {
 homeBtn.addEventListener("click", async () => {
   homePosts.innerHTML = "";
   profilePosts.innerHTML = "";
+  loadProfileInfo();
   await loadPosts();
   removeSelectedPages(homeBtn.id);
   homeBtn.classList.add("icon-active");

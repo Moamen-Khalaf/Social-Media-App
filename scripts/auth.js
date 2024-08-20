@@ -89,7 +89,7 @@ export default class UserActions {
     const url = this.#URLs.posts;
     try {
       if (!this.#user.isAuthorized()) {
-        throw "UnAuthorized";
+        throw { message: "Unauthorized User" };
       }
       const formData = new FormData();
       formData.append("title", title);
@@ -143,7 +143,7 @@ export default class UserActions {
     const url = this.#URLs.getPost(postId);
     try {
       if (!this.#user.isAuthorized()) {
-        throw "UnAuthorized";
+        throw { message: "Unauthorized User" };
       }
       const data = await this.#fetchURL(url, {
         method: "DELETE",
@@ -163,7 +163,7 @@ export default class UserActions {
     const url = this.#URLs.getComment(postId);
     try {
       if (!this.#user.isAuthorized()) {
-        throw "UnAuthorized";
+        throw { message: "Unauthorized User" };
       }
       const data = await this.#fetchURL(url, {
         method: "POST",
@@ -177,7 +177,7 @@ export default class UserActions {
       });
       return { data: data.data, status: true, message: "OK" };
     } catch (error) {
-      return { status: false, message: error };
+      return { status: false, message: error.message };
     }
   }
   async loginFromLocal(userData) {
@@ -230,7 +230,7 @@ export default class UserActions {
     const url = this.#URLs.getUserPosts(this.#user.id);
     try {
       if (!this.#user.isAuthorized()) {
-        throw "Unauthorized User";
+        throw { message: "Unauthorized User" };
       }
       const data = await this.#fetchURL(url, {
         method: "GET",
@@ -259,17 +259,18 @@ export default class UserActions {
   }
   getUserInfo() {
     const { name, username, id, profile_image } = this.#user;
+
     if (!this.#user.isAuthorized()) {
       return {
         status: false,
         message: "Unauthorized User",
-        data: { name, username, id, profile_image },
+        data: null,
       };
     }
     return {
       status: true,
       message: "OK",
-      data: null,
+      data: { name, username, id, profile_image },
     };
   }
   logout(removeLocalData = true) {
