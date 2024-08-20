@@ -61,9 +61,16 @@ registBtn.addEventListener("click", async () => {
 async function addCompletePosts(posts, dest, upToDown) {
   for (const post of posts) {
     createPost(post, dest, upToDown);
-    const { profile_image, id } = user.getUserInfo().data;
-    document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
-      profile_image ?? "assets/user.jpg";
+    const userInfo = user.getUserInfo();
+    let profile_image, id;
+    if (userInfo.status) {
+      ({ profile_image, id } = userInfo.data);
+      document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+        profile_image ?? "assets/user.jpg";
+    } else {
+      document.querySelector(`.add-comment[data-id="${post.id}"] img`).src =
+        "assets/user.jpg";
+    }
     const showComments = document.querySelector(
       `.comment-btn[data-id="${post.id}"]`
     );

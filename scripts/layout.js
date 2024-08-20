@@ -132,7 +132,7 @@ export function createPost(
             <input type="file" id=${id} accept="image/png, image/jpeg" />
             <i class="fa-solid fa-upload"></i>
           </div>
-          <img src=${image}  />
+          <img src=${image}  loading="lazy" alt="${title}" />
         </div>
         <div>
           <div class="post-reaction">
