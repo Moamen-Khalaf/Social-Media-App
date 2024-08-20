@@ -1175,6 +1175,9 @@ video {
     }
     .post-user {
       img {
+        cursor: pointer;
+      }
+      img {
         display: block;
       }
       img {
@@ -1513,6 +1516,9 @@ video {
           gap: 0.75rem;
         }
         .comment-user {
+          img {
+            cursor: pointer;
+          }
           img {
             display: block;
           }

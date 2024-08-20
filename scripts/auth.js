@@ -84,6 +84,20 @@ export default class UserActions {
       throw error;
     }
   }
+  async getFriendData(friendId) {
+    const url = this.#URLs.getUser(friendId);
+    try {
+      const data = await this.#fetchURL(url, {
+        method: "GET",
+        redirect: "follow",
+        Accept: "application/json",
+      });
+      return { data: data.data, status: true, message: "OK" };
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: error.message };
+    }
+  }
 
   async createPost(imageFile, title, body) {
     const url = this.#URLs.posts;
@@ -138,13 +152,20 @@ export default class UserActions {
       return { status: false, message: error.message };
     }
   }
+  /**
+   * function fail because the server response with the same data before edit
+   * @param {*} imageFile
+   * @param {*} title
+   * @param {*} body
+   * @param {*} postId
+   * @returns { data: data.data, status: true, message: "OK" } || { status: false, message: error.message }
+   */
   async editPost(imageFile, title, body, postId) {
     const url = this.#URLs.getPost(postId);
     try {
       if (!this.#user.isAuthorized()) {
         throw { message: "Unauthorized User" };
       }
-      console.log(imageFile, title, body, postId);
       const formData = new FormData();
       formData.append("title", title);
       formData.append("body", body);
@@ -253,8 +274,8 @@ export default class UserActions {
       return { status: false, message: error.message };
     }
   }
-  async getUserPosts() {
-    const url = this.#URLs.getUserPosts(this.#user.id);
+  async getUserPosts(userId) {
+    const url = this.#URLs.getUserPosts(userId);
     try {
       if (!this.#user.isAuthorized()) {
         throw { message: "Unauthorized User" };

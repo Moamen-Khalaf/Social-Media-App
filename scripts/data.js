@@ -32,8 +32,9 @@ function editPost(postId) {
   const replaceImage = document.querySelector(
     `.post[data-id="${postId}"] .replace-image`
   );
+
   const imageInput = replaceImage.querySelector("input");
-  imageInput.addEventListener("change", (event) => {
+  imageInput.onchange = () => {
     const fileReader = new FileReader();
     fileReader.onload = (event) => {
       replaceImage.parentElement
@@ -41,7 +42,7 @@ function editPost(postId) {
         .setAttribute("src", event.target.result);
     };
     fileReader.readAsDataURL(imageInput.files[0]);
-  });
+  };
   replaceImage.classList.add("show");
   settingMenu.classList.remove("show");
   saveChanges.classList.add("show");
@@ -58,21 +59,18 @@ function editPost(postId) {
       descInput.innerText,
       postId
     );
-    console.log(response);
-    console.log(
-      imageInput.files[0],
-      titleInput.innerText,
-      descInput.innerText,
-      postId
-    );
     if (response.status) {
-      const { created_at } = response.data;
+      const { created_at, image, body, title } = response.data;
       document.querySelector(`.time[data-id="${postId}"]`).innerText =
         created_at;
+      replaceImage.parentElement
+        .querySelector("img")
+        .setAttribute("src", image);
+      titleInput.innerText = title;
+      descInput.innerText = body;
     } else {
       console.log(response.status);
     }
-    saveChanges.removeEventListener("click");
   };
 }
 registBtn.addEventListener("click", async () => {
@@ -115,6 +113,19 @@ registBtn.addEventListener("click", async () => {
     rem(username, password, name, email, image);
   }
 });
+function loadUser(userId) {
+  profilePosts.innerHTML = "";
+  homePosts.innerHTML = "";
+  removeSelectedPages();
+  profileBtn.classList.add("icon-active");
+  profilePage.style.display = "block";
+  if (user.getUserInfo().data.id == userId) {
+    document.getElementById("logout").style.display = "block";
+  } else {
+    document.getElementById("logout").style.display = "none";
+  }
+  loadProfile(userId);
+}
 async function addCompletePosts(posts, dest, upToDown) {
   for (const post of posts) {
     createPost(post, dest, upToDown);
@@ -152,7 +163,6 @@ async function addCompletePosts(posts, dest, upToDown) {
     document
       .querySelector(`.editPost[data-id="${post.id}"]`)
       .addEventListener("click", () => {
-        console.log(document.querySelector(`.editPost[data-id="${post.id}"]`));
         editPost(post.id);
       });
     document.querySelector(`.removePost[data-id="${post.id}"]`).onclick =
@@ -161,6 +171,16 @@ async function addCompletePosts(posts, dest, upToDown) {
           document.querySelector(`.post[data-id="${post.id}"]`).remove();
         }
       };
+    const userImage = document.querySelector(
+      `.post[data-id="${post.id}"] .post-user img`
+    );
+    userImage.addEventListener("click", async () => {
+      const freindId = userImage.getAttribute("data-user-id");
+      const response = await user.getFriendData(freindId);
+      if (response.status) {
+        loadUser(freindId);
+      }
+    });
     await new Promise((r) => setTimeout(r, 100));
   }
 }
@@ -261,30 +281,41 @@ async function loadComments(postId) {
     commentCount.innerText = comments.data.length;
     for (const comment of comments.data) {
       createCommentItem(comment, commentsSection);
+      const userImage = document.querySelector(
+        `.comment-user[data-id="${comment.id}"] img`
+      );
+      userImage.addEventListener("click", async () => {
+        const response = await user.getFriendData(comment.author.id);
+        if (response.status) {
+          loadUser(comment.author.id);
+        }
+      });
     }
   } else {
     console.log(comments.message);
   }
 }
-async function loadUserPosts() {
-  const posts = await user.getUserPosts();
+async function loadUserPosts(userId) {
+  const posts = await user.getUserPosts(userId);
   if (posts.status) {
     addCompletePosts(posts.data, profilePosts);
   }
 }
-function loadProfileInfo() {
+async function loadProfileInfo(userId) {
   const userImage = document.querySelector(".user-image img");
   const userName = document.querySelector("#usn");
   const nameEle = document.querySelector("#name");
   const logoutBtn = document.getElementById("logout");
-  const userInfo = user.getUserInfo();
+  const userInfo = await user.getFriendData(userId);
   if (!userInfo.status) {
     console.log(userInfo.message);
     return;
   }
-
-  const { name, username, id, profile_image } = userInfo.data;
+  let { name, username, id, profile_image } = userInfo.data;
   document.getElementById("add-post-user-image").src = profile_image;
+  if (Object.keys(profile_image).length === 0) {
+    profile_image = null;
+  }
   userImage.src = profile_image ?? "assets/user.jpg";
   userName.innerText = username;
   nameEle.innerText = name;
@@ -294,9 +325,9 @@ function loadProfileInfo() {
     signPage.click();
   });
 }
-async function loadProfile() {
-  loadProfileInfo();
-  await loadUserPosts();
+async function loadProfile(userId) {
+  loadProfileInfo(userId);
+  loadUserPosts(userId);
 }
 async function login() {
   const inputs = document.querySelectorAll("#login input");
@@ -323,34 +354,29 @@ loginBtn.addEventListener("click", login);
 async function loadUserLocally(userData) {
   if (userData && (await user.loginFromLocal(userData)).status) {
     await loadPosts();
-    const lastPage = localStorage.getItem("lastPage");
-    if (lastPage) {
-      document.getElementById(`${lastPage}`).click();
-    } else {
-      homeBtn.click();
-    }
+    homeBtn.click();
   } else {
     signBtn.click();
   }
 }
 profileBtn.addEventListener("click", async () => {
   if (user.getUserInfo().status) {
-    profilePosts.innerHTML = "";
-    homePosts.innerHTML = "";
-    await loadProfile();
-    removeSelectedPages(profileBtn.id);
-    profileBtn.classList.add("icon-active");
-    profilePage.style.display = "block";
+    loadUser(user.getUserInfo().data.id);
   }
 });
 homeBtn.addEventListener("click", async () => {
   homePosts.innerHTML = "";
   profilePosts.innerHTML = "";
-  loadProfileInfo();
+  loadProfileInfo(user.getUserInfo().data.id);
   await loadPosts();
-  removeSelectedPages(homeBtn.id);
+  removeSelectedPages();
   homeBtn.classList.add("icon-active");
   homePage.style.display = "block";
+});
+signBtn.addEventListener("click", () => {
+  removeSelectedPages();
+  signBtn.classList.add("icon-active");
+  signPage.style.display = "block";
 });
 (async () => {
   const userData = localStorage.getItem("userData");

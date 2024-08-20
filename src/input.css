@@ -54,7 +54,7 @@
       .post-user {
         @apply flex gap-3 flex-grow items-center;
         img {
-          @apply sm-image;
+          @apply sm-image cursor-pointer;
         }
         h3 {
           @apply font-bold text-[1.5rem];
@@ -131,7 +131,7 @@
           .comment-user {
             @apply flex gap-3 flex-grow items-center;
             img {
-              @apply sm-image;
+              @apply sm-image cursor-pointer;
             }
             h3 {
               @apply font-bold;

@@ -35,19 +35,18 @@ imageFileLoader.addEventListener("change", () => {
   }
 });
 
-export function removeSelectedPages(id) {
+export function removeSelectedPages() {
   profileBtn.classList.remove("icon-active");
   homeBtn.classList.remove("icon-active");
   signBtn.classList.remove("icon-active");
   homePage.style.display = "none";
   profilePage.style.display = "none";
   signPage.style.display = "none";
-  localStorage.setItem("lastPage", id);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 signBtn.addEventListener("click", () => {
-  removeSelectedPages(signBtn.id);
+  removeSelectedPages();
   signBtn.classList.add("icon-active");
   signPage.style.display = "block";
 });
