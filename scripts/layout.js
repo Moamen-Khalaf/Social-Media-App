@@ -26,6 +26,9 @@ export function createCommentItem(
   dest
 ) {
   body = escapeHtml(body);
+  if (Object.keys(profile_image).length === 0) {
+    profile_image = "../assets/user.jpg";
+  }
   const comment = document.createRange()
     .createContextualFragment(`<div class="comment-item">
               <div class="comment-header">
