@@ -92,6 +92,9 @@ export default class UserActions {
         redirect: "follow",
         Accept: "application/json",
       });
+      if (Object.keys(data.data.profile_image).length == 0) {
+        data.data.profile_image = "assets/user.jpg";
+      }
       return { data: data.data, status: true, message: "OK" };
     } catch (error) {
       console.log(error);

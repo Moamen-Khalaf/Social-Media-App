@@ -301,7 +301,7 @@ async function loadComments(postId) {
 async function loadUserPosts(userId) {
   const posts = await user.getUserPosts(userId);
   if (posts.status) {
-    addCompletePosts(posts.data, profilePosts);
+    addCompletePosts(posts.data.reverse(), profilePosts, true);
   }
 }
 async function loadProfileInfo(userId) {
