@@ -77,15 +77,14 @@ function editPost(postId) {
 }
 async function saveProfileEdits(imageFile, name, email) {
   const response = await user.editProfile(imageFile, name, email);
-  if (response.status) {
-    loadProfileInfo(user.getUserInfo().data.id);
-  } else {
+  if (!response.status) {
     const warnMsg = document.getElementById("profile-warning");
     warnMsg.classList.add("show");
     warnMsg.innerText = response.message + "!";
     await new Promise((r) => setTimeout(r, 5000));
     warnMsg.classList.remove("show");
   }
+  loadProfileInfo(user.getUserInfo().data.id);
 }
 function updateProfileInfo() {
   const editBtn = document.getElementById("edit-profile");
