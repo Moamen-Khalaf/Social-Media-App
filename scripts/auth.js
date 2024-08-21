@@ -307,7 +307,6 @@ export default class UserActions {
   }
   getUserInfo() {
     const { name, username, id, profile_image } = this.#user;
-
     if (!this.#user.isAuthorized()) {
       return {
         status: false,

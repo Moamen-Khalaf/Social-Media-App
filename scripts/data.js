@@ -305,23 +305,37 @@ async function loadUserPosts(userId) {
   }
 }
 async function loadProfileInfo(userId) {
-  const userImage = document.querySelector(".user-image img");
-  const userName = document.querySelector("#usn");
-  const nameEle = document.querySelector("#name");
-  const logoutBtn = document.getElementById("logout");
   const userInfo = await user.getFriendData(userId);
   if (!userInfo.status) {
     console.log(userInfo.message);
     return;
   }
-  let { name, username, id, profile_image } = userInfo.data;
+  const userImage = document.querySelector(".user-image img");
+  const userName = document.querySelector("#usn");
+  const nameEle = document.querySelector("#name");
+  const logoutBtn = document.getElementById("logout");
+  const userEmail = document.querySelector(".profile-header .email");
+  const commentCount = document.querySelector(
+    ".profile-header .comments_count"
+  );
+  const postsCount = document.querySelector(".profile-header .posts_count");
+  let {
+    name,
+    username,
+    id,
+    profile_image,
+    posts_count,
+    comments_count,
+    email,
+  } = userInfo.data;
   document.getElementById("add-post-user-image").src = profile_image;
-  if (Object.keys(profile_image).length === 0) {
-    profile_image = null;
-  }
+
   userImage.src = profile_image ?? "assets/user.jpg";
-  userName.innerText = username;
+  userName.innerText = `@${username}`;
   nameEle.innerText = name;
+  userEmail.innerText = email;
+  commentCount.innerText = comments_count;
+  postsCount.innerText = posts_count;
   logoutBtn.addEventListener("click", () => {
     user.logout(true);
     window.location.reload();
@@ -356,7 +370,7 @@ async function login() {
 loginBtn.addEventListener("click", login);
 async function loadUserLocally(userData) {
   if (userData && (await user.loginFromLocal(userData)).status) {
-    await loadPosts();
+    loadPosts();
     homeBtn.click();
   } else {
     signBtn.click();
