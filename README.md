@@ -1,0 +1,34 @@
+# Main Features
+  - login
+    - username
+    - password 
+  - logout
+  - register
+    - username
+    - email
+    - name
+    - password
+    - personal image 
+  - show all users' posts on home page
+  - create post
+    - title
+    - body
+    - image
+  - delete post
+  - add comment
+    - body
+  - edit post
+    - edit title
+    - edit body 
+    - edit image
+  - show profile
+    - user info
+    - user's posts  
+  - edit user profile info
+    - edit email
+    - edit name
+    - edit personal image 
+  - show other's profile
+  - prevent showing home and profile page on gust mode
+  - auto login if user already loged in
+  - add dummy image if users' images crashed 
