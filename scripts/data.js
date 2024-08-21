@@ -63,9 +63,11 @@ function editPost(postId) {
       const { created_at, image, body, title } = response.data;
       document.querySelector(`.time[data-id="${postId}"]`).innerText =
         created_at;
-      replaceImage.parentElement
-        .querySelector("img")
-        .setAttribute("src", image);
+      if (Object.keys(image).length != 0) {
+        replaceImage.parentElement
+          .querySelector("img")
+          .setAttribute("src", image);
+      }
       titleInput.innerText = title;
       descInput.innerText = body;
     } else {
@@ -439,13 +441,15 @@ profileBtn.addEventListener("click", async () => {
   }
 });
 homeBtn.addEventListener("click", async () => {
-  homePosts.innerHTML = "";
-  profilePosts.innerHTML = "";
-  loadProfileInfo(user.getUserInfo().data.id);
-  await loadPosts();
-  removeSelectedPages();
-  homeBtn.classList.add("icon-active");
-  homePage.style.display = "block";
+  if (user.getUserInfo().status) {
+    homePosts.innerHTML = "";
+    profilePosts.innerHTML = "";
+    loadProfileInfo(user.getUserInfo().data.id);
+    await loadPosts();
+    removeSelectedPages();
+    homeBtn.classList.add("icon-active");
+    homePage.style.display = "block";
+  }
 });
 signBtn.addEventListener("click", () => {
   removeSelectedPages();
