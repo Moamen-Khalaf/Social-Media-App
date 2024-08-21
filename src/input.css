@@ -185,6 +185,10 @@ img[src="#"] {
     scale: 1;
   }
 }
-#add-post-warning.show {
+#add-post-warning.show,
+#save-profile.show,
+#edit-profile.show,
+#logout.show,
+#profile-warning.show {
   @apply scale-y-100;
 }

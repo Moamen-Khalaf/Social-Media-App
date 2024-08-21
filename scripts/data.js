@@ -73,6 +73,58 @@ function editPost(postId) {
     }
   };
 }
+async function saveProfileEdits(imageFile, name, email) {
+  const response = await user.editProfile(imageFile, name, email);
+  if (response.status) {
+    loadProfileInfo(user.getUserInfo().data.id);
+  } else {
+    const warnMsg = document.getElementById("profile-warning");
+    warnMsg.classList.add("show");
+    warnMsg.innerText = response.message + "!";
+    await new Promise((r) => setTimeout(r, 5000));
+    warnMsg.classList.remove("show");
+  }
+}
+function updateProfileInfo() {
+  const editBtn = document.getElementById("edit-profile");
+  const saveBtn = document.getElementById("save-profile");
+  editBtn.classList.remove("show");
+  saveBtn.classList.add("show");
+
+  const userImage = document.querySelector(".user-image img");
+  const editOverlay = document.querySelector(".user-image > label");
+  editOverlay.style.display = "flex";
+  const nameEle = document.querySelector("#name");
+  const logoutBtn = document.getElementById("logout");
+  const userEmail = document.querySelector(".profile-header .email");
+  const toggleEdit = (...eles) => {
+    eles.forEach((ele) => {
+      ele.toggleAttribute("contenteditable");
+    });
+  };
+  logoutBtn.classList.remove("show");
+  toggleEdit(userImage, nameEle, userEmail);
+  const imageInput = editOverlay.querySelector("input");
+  imageInput.onchange = () => {
+    const fileReader = new FileReader();
+    fileReader.onload = (event) => {
+      userImage.setAttribute("src", event.target.result);
+    };
+    fileReader.readAsDataURL(imageInput.files[0]);
+  };
+  saveBtn.onclick = () => {
+    toggleEdit(userImage, nameEle, userEmail);
+    saveProfileEdits(
+      imageInput.files[0],
+      nameEle.innerText,
+      userEmail.innerText
+    );
+    editOverlay.style.display = "none";
+    saveBtn.classList.remove("show");
+    editBtn.classList.add("show");
+    logoutBtn.classList.add("show");
+  };
+}
 registBtn.addEventListener("click", async () => {
   const inputs = document.querySelectorAll("#register input");
   const [username, password, name, email, image] = inputs;
@@ -173,9 +225,11 @@ function loadUser(userId) {
   profileBtn.classList.add("icon-active");
   profilePage.style.display = "block";
   if (user.getUserInfo().data.id == userId) {
-    document.getElementById("logout").style.display = "block";
+    document.getElementById("logout").classList.add("show");
+    document.getElementById("edit-profile").classList.add("show");
   } else {
-    document.getElementById("logout").style.display = "none";
+    document.getElementById("logout").classList.remove("show");
+    document.getElementById("edit-profile").classList.remove("show");
   }
   loadProfile(userId);
 }
@@ -341,6 +395,9 @@ async function loadProfileInfo(userId) {
     window.location.reload();
     signPage.click();
   });
+  document
+    .getElementById("edit-profile")
+    .addEventListener("click", updateProfileInfo);
 }
 async function loadProfile(userId) {
   loadProfileInfo(userId);

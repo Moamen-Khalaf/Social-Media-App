@@ -190,6 +190,33 @@ export default class UserActions {
       return { status: false, message: error.message };
     }
   }
+  async editProfile(imageFile, name, email) {
+    const url = this.#URLs.updateProfile;
+    try {
+      if (!this.#user.isAuthorized()) {
+        throw { message: "Unauthorized User" };
+      }
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+      const data = await this.#fetchURL(url, {
+        method: "PUT",
+        redirect: "follow",
+        body: formData,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${this.#user.token}`,
+        },
+      });
+      return { data: data.data, status: true, message: "OK" };
+    } catch (error) {
+      console.log(error);
+      return { status: false, message: error.message };
+    }
+  }
   async removePost(postId) {
     const url = this.#URLs.getPost(postId);
     try {

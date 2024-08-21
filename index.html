@@ -136,11 +136,23 @@
       <div
         class="container profile-header py-[70px] flex items-center gap-5 border-b-4 border-customGray-dark"
       >
-        <div class="user-image w-fit">
+        <div class="user-image w-fit relative">
           <img
             src="assets/user.jpg"
             class="block rounded-full w-[150px] object-cover object-center aspect-square border-4 border-accent"
           />
+          <label
+            class="absolute w-full h-full hover:bg-neutral-500 opacity-70 top-0 left-0 flex items-center justify-center cursor-pointer duration-100 rounded-full hidden"
+            for="profileImage"
+          >
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              id="profileImage"
+              class="hidden"
+            />
+            <i class="fa-solid fa-upload text-accent"></i>
+          </label>
         </div>
         <div class="flex-grow">
           <h1 id="name" class="font-bold text-[1.8rem] text-accent">Gust</h1>
@@ -158,12 +170,28 @@
               <span> Posts Count </span>
               <span class="posts_count text-accent">0</span>
             </div>
+            <p
+              class="text-rose-600 duration-100 scale-y-0"
+              id="profile-warning"
+            >
+              Missing body or title !
+            </p>
           </div>
         </div>
-        <button
-          class="fa-solid fa-right-from-bracket font-bold text-[2rem] mx-5 text-accent"
-          id="logout"
-        ></button>
+        <div class="flex flex-col self-start gap-4">
+          <button
+            class="fa-solid fa-right-from-bracket font-bold text-[2rem] text-accent scale-y-0 duration-100"
+            id="logout"
+          ></button>
+          <button
+            class="fas fa-edit font-bold text-[2rem] text-accent scale-y-0 duration-100"
+            id="edit-profile"
+          ></button>
+          <button
+            class="fa-solid fa-check font-bold text-[2rem] text-accent duration-100 scale-y-0"
+            id="save-profile"
+          ></button>
+        </div>
       </div>
       <div id="profile-posts"></div>
     </main>
