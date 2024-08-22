@@ -143,6 +143,8 @@ registBtn.addEventListener("click", async () => {
     email.value
   );
   if (ok.status) {
+    signBtn.style.display = "none";
+    homeBtn.click();
     await loadPosts();
     let clear = (...val) => {
       for (const element of val) {
@@ -150,7 +152,6 @@ registBtn.addEventListener("click", async () => {
       }
     };
     clear(username, password, name, email, image);
-    homeBtn.click();
   } else {
     let add = (...val) => {
       for (const element of val) {
@@ -392,8 +393,9 @@ async function loadProfileInfo(userId) {
   commentCount.innerText = comments_count;
   postsCount.innerText = posts_count;
   logoutBtn.addEventListener("click", () => {
-    user.logout(true);
+    user.logout();
     window.location.reload();
+    signBtn.style.display = "block";
     signPage.click();
   });
   document
@@ -411,6 +413,7 @@ async function login() {
   pass.classList.remove("incorrect-input");
   const ok = await user.login(usn.value, pass.value);
   if (ok.status) {
+    signBtn.style.display = "none";
     await loadPosts();
     homeBtn.click();
   } else {
@@ -430,6 +433,7 @@ async function loadUserLocally(userData) {
   if (userData && (await user.loginFromLocal(userData)).status) {
     loadPosts();
     homeBtn.click();
+    signBtn.style.display = "none";
   } else {
     signBtn.click();
   }

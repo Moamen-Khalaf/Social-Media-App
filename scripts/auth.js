@@ -350,7 +350,7 @@ export default class UserActions {
       data: { name, username, id, profile_image },
     };
   }
-  logout(removeLocalData = true) {
-    !removeLocalData || localStorage.clear();
+  logout() {
+    localStorage.removeItem("userData");
   }
 }
