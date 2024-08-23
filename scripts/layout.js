@@ -122,7 +122,7 @@ export function createPost(
           </div>
         </div>
         <!-- desc -->
-        <h4 class="title">${title}</h4>
+        <h4 class="title">${title ? title : ""}</h4>
         <div class="desc">
           ${body}
         </div>
