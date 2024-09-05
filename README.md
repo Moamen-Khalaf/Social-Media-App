@@ -9,7 +9,7 @@
     - name
     - password
     - personal image 
-  - show all users' posts on home page
+  - show all users' posts on profile page
   - create post
     - title
     - body
